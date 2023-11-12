@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./styles/search.css"></link>
     <link rel="stylesheet" href="./styles/main.css"></link>
     <script src="data/sample-songs.json"></script>
+    <script src="data/genres.json"></script>
+    <script src="data/artists.json"></script>
     <script src="js/assign2.js"></script>
 </head>
 <body>
@@ -18,10 +20,28 @@
     </header>
 
     <div id="search-container">
-        <section id="search"> 
-            <p>search here</p>
+        <section id="search">
+            <div>
+                <label for="titleRadio">Title:</label>
+                <input type="radio" id="titleRadio" name="radio">
+                <input type="textfield" id="titleText">
+            </div>
+            <div>
+                <label for="genreRadio">Genre:</label>
+                <input type="radio" id="genreRadio" name="radio">
+                <select id="genreSelect">
+                    <option disabled selected>Select a Genre</option>
+                </select>
+            </div>
+            <div>
+                <label for="artistRadio">Artist:</label>
+                <input type="radio" id="artistRadio" name="radio">
+                <select id="artistSelect">
+                    <option disabled selected>Select an Artist</option>
+                </select>
+            </div>
+            <button id="filterButton">Filter</button>
         </section>
-
         <section id="song-list"> 
             <p>songlist here</p>
             <table>

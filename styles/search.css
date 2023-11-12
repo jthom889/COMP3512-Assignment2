@@ -6,6 +6,10 @@
 }
 #search{
     background-color: darkblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 #song-list{
     background-color: brown;
@@ -16,5 +20,12 @@ table{
 td,th,tr{
     padding: 10px 15px 10px 15px;
     text-align: center;
+    color: white;
+}
+input[type="radio"] {
+    margin-top: -1px;
+    vertical-align: middle;
+}
+label{
     color: white;
 }
