@@ -1,0 +1,22 @@
+html{
+    width: 100%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    /* used image: https://www.pexels.com/photo/black-vinyl-record-21148/ */
+    background: url(../images/background.jpg) no-repeat;
+    background-size: cover;
+    background-attachment: fixed ;
+}
+header, footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(122, 214, 122);
+}

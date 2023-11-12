@@ -1,0 +1,20 @@
+#search-container{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 15px;
+    margin : 10px
+}
+#search{
+    background-color: darkblue;
+}
+#song-list{
+    background-color: brown;
+}
+table{
+    width: 100%;
+}
+td,th,tr{
+    padding: 10px 15px 10px 15px;
+    text-align: center;
+    color: white;
+}
