@@ -29,3 +29,6 @@ input[type="radio"] {
 label{
     color: white;
 }
+#song-list table thead tr:hover{
+    cursor: pointer;
+}

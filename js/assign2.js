@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
    generateTable();
    fillOptions();
 
-   
+   document.querySelector("#song-list table thead tr").addEventListener('click', sortHandler);
 
 });
 
@@ -60,4 +60,54 @@ function fillOptions(){
    }
 }
 
+function sortHandler(e){
+   if(e.target.innerText == "Title")
+      tableSorter(0);
+   else if(e.target.innerText == "Artist")
+      tableSorter(1);
+   else if(e.target.innerText == "Year")
+      tableSorter(2);
+   else if(e.target.innerText == "Genre")
+      tableSorter(3);
+   else if(e.target.innerText == "Popularity")
+      tableSorter(4);
+}
+
+function tableSorter(column){
+   let switchMade = true;
+   let direction = "ascend";
+   let count = 0;
+
+   while(switchMade){
+      const rows = document.querySelectorAll("#song-list table tbody tr");
+
+      for(let i = 0; i < rows.length - 1; i++){
+         let compare1 = rows[i].children[column];
+         let compare2 = rows[i+1].children[column];
+         switchMade = false;
+   
+         if(compare1.innerText > compare2.innerText && direction == "ascend"){
+            rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+            switchMade = true;
+            count ++;
+            break;
+         }else if(compare1.innerText < compare2.innerText && direction == "decend"){
+            rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+            switchMade = true;
+            count ++;
+            break;
+         }
+      }
+
+      if(count == 0 && direction == "ascend"){
+         direction = "decend";
+         switchMade = true;
+      }
+
+   }
+   
+
+   
+   
+}
 
