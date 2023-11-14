@@ -74,9 +74,18 @@ function sortHandler(e){
 }
 
 function tableSorter(column){
+   //clear sorting indicators for all
+   let spans = document.querySelectorAll(".tableSpan");
+   for(let s of spans){
+      s.innerText = "";
+   }
+   
+   //now sort
    let switchMade = true;
    let direction = "ascend";
    let count = 0;
+   let span = document.querySelector("#song-list table thead tr").children[column].lastChild;
+   span.innerText = "^"
 
    while(switchMade){
       const rows = document.querySelectorAll("#song-list table tbody tr");
@@ -89,18 +98,22 @@ function tableSorter(column){
          if(compare1.innerText > compare2.innerText && direction == "ascend"){
             rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
             switchMade = true;
+            console.log("here1");
             count ++;
             break;
-         }else if(compare1.innerText < compare2.innerText && direction == "decend"){
+         }else if(compare1.innerText < compare2.innerText && direction == "descend"){
             rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
             switchMade = true;
+            console.log("here2");
             count ++;
             break;
          }
       }
 
       if(count == 0 && direction == "ascend"){
-         direction = "decend";
+         direction = "descend";
+         console.log("here3");
+         span.innerText = "⌄"
          switchMade = true;
       }
 
