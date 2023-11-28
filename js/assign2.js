@@ -14,12 +14,12 @@ function generateLandingPage(){
         })
         .then(response => {
             const data = response;
-            generateTable(data);
+            generateTable(data, true);
             fillOptions(data);
         })
 }
 
-function generateTable(data){
+function generateTable(data, firstLoad){
    const table = document.querySelector("#song-list table tbody");
    table.innerHTML="";
 
@@ -44,10 +44,12 @@ function generateTable(data){
       }
 
    }
-   document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
+   if(firstLoad)
+      document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
 }
 
 function fillOptions(data){
+
    const artistSelect = document.querySelector("#artistSelect");
 
    const artists = data.map(d => d.artist.name);
@@ -75,66 +77,47 @@ function fillOptions(data){
 }
 
 function sortHandler(e, data){
+   console.log(data);
    if(e.target.innerText == "Title" && e.target.nodeName === "SPAN")
-      console.log("title");
+      sortByOneField("title",e,data);
    else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN")
-      console.log("artist");
+      sortByTwoFields("artist","name",e,data);
    else if(e.target.innerText == "Year" && e.target.nodeName === "SPAN")
-      console.log("year");
+      sortByOneField("year",e,data);
    else if(e.target.innerText == "Genre" && e.target.nodeName === "SPAN")
-      console.log("genre");
+      sortByTwoFields("genre","name",e,data);
    else if(e.target.innerText == "Popularity" && e.target.nodeName === "SPAN")
-      console.log("pop");
+      sortByTwoFields("details","popularity",e,data);
 }
 
-function tableSorter(column){
-   //clear sorting indicators for all
-   let spans = document.querySelectorAll(".tableSpan");
-   for(let s of spans){
-      s.innerText = "";
+function sortByOneField(field,e,data){
+   if(checkSorted(e)){
+      generateTable(data.sort( (a,b) => a[field] > b[field] ? -1:1));
    }
-   
-   //now sort
-   let switchMade = true;
-   let direction = "ascend";
-   let count = 0;
-   let span = document.querySelector("#song-list table thead tr").children[column].lastChild;
-   span.innerText = "^"
-
-   while(switchMade){
-      const rows = document.querySelectorAll("#song-list table tbody tr");
-
-      for(let i = 0; i < rows.length - 1; i++){
-         let compare1 = rows[i].children[column];
-         let compare2 = rows[i+1].children[column];
-         switchMade = false;
-   
-         if(compare1.innerText > compare2.innerText && direction == "ascend"){
-            rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
-            switchMade = true;
-            console.log("here1");
-            count ++;
-            break;
-         }else if(compare1.innerText < compare2.innerText && direction == "descend"){
-            rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
-            switchMade = true;
-            console.log("here2");
-            count ++;
-            break;
-         }
-      }
-
-      if(count == 0 && direction == "ascend"){
-         direction = "descend";
-         console.log("here3");
-         span.innerText = "⌄"
-         switchMade = true;
-      }
-
+   else{
+      generateTable(data.sort( (a,b) => a[field] < b[field] ? -1:1));
    }
-   
-
-   
-   
 }
+
+function sortByTwoFields(field,field2,e,data){
+   if(checkSorted(e)){
+      generateTable(data.sort( (a,b) => a[field][field2] > b[field][field2] ? -1:1));
+   }
+   else{
+      generateTable(data.sort( (a,b) => a[field][field2] < b[field][field2] ? -1:1));
+   }
+}
+
+function checkSorted(e){
+   if(e.target.dataset.sorted == "true"){
+      e.target.dataset.sorted = "false"
+      return true
+   }
+   else{
+      e.target.dataset.sorted = "true"
+      return false
+   }
+      
+}
+
 
