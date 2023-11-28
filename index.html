@@ -20,24 +20,28 @@
         <section id="search">
             <div>
                 <label for="titleRadio">Title:</label>
-                <input type="radio" id="titleRadio" name="radio">
+                <input type="radio" id="titleRadio" name="radio" checked="true">
                 <input type="textfield" id="titleText">
             </div>
             <div>
                 <label for="genreRadio">Genre:</label>
                 <input type="radio" id="genreRadio" name="radio">
-                <select id="genreSelect">
+                <select id="genreSelect" disabled="true">
                     <option disabled selected>Select a Genre</option>
                 </select>
             </div>
             <div>
                 <label for="artistRadio">Artist:</label>
                 <input type="radio" id="artistRadio" name="radio">
-                <select id="artistSelect">
+                <select id="artistSelect" disabled="true">
                     <option disabled selected>Select an Artist</option>
                 </select>
             </div>
-            <button id="filterButton">Filter</button>
+            <div>
+                <button id="filterButton">Filter</button>
+                <button id="clearButton">Clear</button>
+            </div>
+            
         </section>
         <section id="song-list"> 
             <table>

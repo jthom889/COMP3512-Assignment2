@@ -15,7 +15,7 @@ function generateLandingPage(){
         .then(response => {
             const data = response;
             generateTable(data, true);
-            fillOptions(data);
+            generateSearchBar(data,true);
         })
 }
 
@@ -46,6 +46,14 @@ function generateTable(data, firstLoad){
    }
    if(firstLoad)
       document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
+}
+
+function generateSearchBar(data,firstLoad){
+   if(firstLoad){
+      fillOptions(data);
+      document.querySelectorAll("input[type=radio]").forEach(r => {r.addEventListener("change", radioClick)})
+   }
+   
 }
 
 function fillOptions(data){
@@ -118,6 +126,27 @@ function checkSorted(e){
       return false
    }
       
+}
+function radioClick(e){
+   const titleRadio = document.querySelector("#titleRadio");
+   const artistRadio = document.querySelector("#artistRadio");
+   const genreRadio = document.querySelector("#genreRadio");
+   const titleText = document.querySelector("#titleText")
+   const genreSelect = document.querySelector("#genreSelect");
+   const artistSelect = document.querySelector("#artistSelect");
+
+   genreSelect.disabled=true;
+   artistSelect.disabled=true;
+   titleText.disabled=true;
+   
+
+   if(e.target == titleRadio){
+      titleText.disabled = false;
+   }
+   else if(e.target == genreRadio){
+      genreSelect.disabled = false;
+   }else
+      artistSelect.disabled = false;
 }
 
 
