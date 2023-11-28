@@ -14,6 +14,7 @@ function generateLandingPage(){
         })
         .then(response => {
             const data = response.slice();
+            console.log(data);
             generateTable(data, true);
             generateSearchBar(data,true);
             document.querySelector("#filterButton").addEventListener("click", () => filter(data));
@@ -51,7 +52,10 @@ function generateTable(data, firstLoad){
          row.appendChild(tableData);
          
       }
-
+      //add button for playlist
+      
+      row.appendChild(createButton(s));
+      row.children[0].dataset.song_id = s.song_id;
    }
 
    document.querySelectorAll("#song-list table tbody tr").forEach(
@@ -156,11 +160,24 @@ function radioClick(e){
    }else
       artistSelect.disabled = false;
 }
+function createButton(song){
+   const button = document.createElement("button");
+   button.id="playlistButton";
+   button.textContent="Add to Playlist"
+   button.dataset.song_id=song.song_id
+   button.addEventListener("click", addToPlaylist)
+   return button;
+
+}
 function filter(){
    document.querySelector("#filterButton").disabled=true;
 }
 function singleSong(e){
    //code here, this is a test
-   console.log(e.target.innerText);
+   console.log(e.target.dataset.song_id);
+}
+function addToPlaylist(e){
+   //code here, this is a test
+   console.log(e.target.dataset.song_id);
 }
 
