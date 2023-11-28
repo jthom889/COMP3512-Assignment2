@@ -13,15 +13,21 @@ function generateLandingPage(){
                 return Promise.reject({status:response.status, statusText:response.status.text})
         })
         .then(response => {
-            const data = response;
+            const data = response.slice();
             generateTable(data, true);
             generateSearchBar(data,true);
+            document.querySelector("#clearButton").addEventListener("click", () => {generateTable(response); console.log(response)})
         })
 }
 
 function generateTable(data, firstLoad){
    const table = document.querySelector("#song-list table tbody");
    table.innerHTML="";
+
+   if(firstLoad){
+      document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
+      data.sort( (a,b) => a.title < b.title ? -1:1);
+   }
 
    for(let s of data){
       //create row
@@ -47,8 +53,7 @@ function generateTable(data, firstLoad){
 
    document.querySelectorAll("#song-list table tbody tr").forEach(
                                           row => row.children[0].addEventListener("click",singleSong));
-   if(firstLoad)
-      document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
+
 }
 
 function generateSearchBar(data,firstLoad){
@@ -88,7 +93,6 @@ function fillOptions(data){
 }
 
 function sortHandler(e, data){
-   console.log(data);
    if(e.target.innerText == "Title" && e.target.nodeName === "SPAN")
       sortByOneField("title",e,data);
    else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN")
@@ -131,6 +135,7 @@ function checkSorted(e){
       
 }
 function radioClick(e){
+   console.log("clicked")
    const titleText = document.querySelector("#titleText")
    const genreSelect = document.querySelector("#genreSelect");
    const artistSelect = document.querySelector("#artistSelect");
