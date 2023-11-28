@@ -185,12 +185,19 @@ function createButton(song){
 }
 function filter(data,e){
    document.querySelector("#filterButton").disabled=true;
-   if(document.querySelector("#artistRadio").checked && document.querySelector("#artistSelect").value != 0)
+   const searchParams = document.querySelector("#searchParams")
+   if(document.querySelector("#artistRadio").checked && document.querySelector("#artistSelect").value != 0){
       generateTable(data.filter(d => d.artist.name === document.querySelector("#artistSelect").value));
-   else if(document.querySelector("#titleRadio").checked && document.querySelector("#titleText").value != 0)
+      searchParams.textContent = `Search by Artist: ${document.querySelector("#artistSelect").value}`
+   }
+   else if(document.querySelector("#titleRadio").checked && document.querySelector("#titleText").value != 0){
       generateTable(data.filter(d => d.title.includes(document.querySelector("#titleText").value)));
-   else if(document.querySelector("#genreRadio").checked && document.querySelector("#genreSelect").value != 0)
+      searchParams.textContent = `Search by Title: ${document.querySelector("#titleText").value}`
+   }
+   else if(document.querySelector("#genreRadio").checked && document.querySelector("#genreSelect").value != 0){
       generateTable(data.filter(d => d.genre.name === document.querySelector("#genreSelect").value));
+      searchParams.textContent = `Search by Genre: ${document.querySelector("#genreSelect").value}`
+   }
    else{
       document.querySelector("#message").innerText = "Please Fill Out The Relevant Field";
       document.querySelector("#filterButton").disabled=false;
@@ -200,8 +207,9 @@ function filter(data,e){
    }
 }
 function clearSearch(response){
-   generateTable(response.sort( (a,b) => a.title < b.title ? -1:1)); 
-   generateSearchBar()
+   generateTable(response.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
+   generateSearchBar();
+   document.querySelector("#searchParams").textContent = "Browse Mode"
 }
 function singleSong(e){
    //code here, this is how you can access the song id
