@@ -1,22 +1,29 @@
-/* url of song api --- https versions hopefully a little later this semester */	
-const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
-const songlist = JSON.parse(song);
-const genrelist = JSON.parse(genres);
-const artistlist = JSON.parse(artists);
 
 document.addEventListener("DOMContentLoaded", () => {
-   generateTable();
-   fillOptions();
-   
-   document.querySelector("#song-list table thead tr").addEventListener('click', sortHandler);
-
+   generateLandingPage();
 });
 
-function generateTable(){
+function generateLandingPage(){
+   const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
+   fetch(api)
+        .then(response => {
+            if(response.ok)
+                return response.json();
+            else
+                return Promise.reject({status:response.status, statusText:response.status.text})
+        })
+        .then(response => {
+            const data = response;
+            generateTable(data);
+            fillOptions(data);
+        })
+}
 
+function generateTable(data){
    const table = document.querySelector("#song-list table tbody");
-   
-   for(let s of songlist){
+   table.innerHTML="";
+
+   for(let s of data){
       //create row
       const row = document.createElement("tr");
       table.appendChild(row);
@@ -37,40 +44,47 @@ function generateTable(){
       }
 
    }
+   document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
 }
 
-function fillOptions(){
+function fillOptions(data){
    const artistSelect = document.querySelector("#artistSelect");
-   const genreSelect = document.querySelector("#genreSelect");
-   
-   for(let a of artistlist){
-      const newOption = document.createElement("option");
-      const optionText = document.createTextNode(a.name);
 
-      newOption.appendChild(optionText);
-      artistSelect.appendChild(newOption);
+   const artists = data.map(d => d.artist.name);
+   const uniqueArtists = artists.filter((val, index) => artists.indexOf(val) === index).sort();
+
+   for(let u of uniqueArtists){
+      const newOptionArtist = document.createElement("option");
+      const optionTextArtist = document.createTextNode(u);
+      newOptionArtist.appendChild(optionTextArtist);
+      artistSelect.appendChild(newOptionArtist);
    }
 
-   for(let g of genrelist){
-      const newOption = document.createElement("option");
-      const optionText = document.createTextNode(g.name);
+   const genreSelect = document.querySelector("#genreSelect");
 
-      newOption.appendChild(optionText);
-      genreSelect.appendChild(newOption);
+   const genres = data.map(d => d.genre.name);
+   const uniqueGenres = genres.filter((val, index) => genres.indexOf(val) === index).sort();
+
+   for(let u of uniqueGenres){
+      const newOptionGenre = document.createElement("option");
+      const optionTextGenre = document.createTextNode(u);
+
+      newOptionGenre.appendChild(optionTextGenre);
+      genreSelect.appendChild(newOptionGenre);
    }
 }
 
-function sortHandler(e){
-   if(e.target.innerText == "Title")
-      tableSorter(0);
-   else if(e.target.innerText == "Artist")
-      tableSorter(1);
-   else if(e.target.innerText == "Year")
-      tableSorter(2);
-   else if(e.target.innerText == "Genre")
-      tableSorter(3);
-   else if(e.target.innerText == "Popularity")
-      tableSorter(4);
+function sortHandler(e, data){
+   if(e.target.innerText == "Title" && e.target.nodeName === "SPAN")
+      console.log("title");
+   else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN")
+      console.log("artist");
+   else if(e.target.innerText == "Year" && e.target.nodeName === "SPAN")
+      console.log("year");
+   else if(e.target.innerText == "Genre" && e.target.nodeName === "SPAN")
+      console.log("genre");
+   else if(e.target.innerText == "Popularity" && e.target.nodeName === "SPAN")
+      console.log("pop");
 }
 
 function tableSorter(column){

@@ -13,9 +13,18 @@
 }
 #song-list{
     background-color: brown;
+    height: 500px;
+    overflow-y: scroll;
+}
+#song-list table thead th:hover{
+    cursor:default;
+}
+#song-list table thead tr th span:hover{
+    cursor: pointer;
 }
 table{
     width: 100%;
+    
 }
 td,th,tr{
     padding: 10px 15px 10px 15px;
