@@ -18,9 +18,7 @@ function generateLandingPage(){
             generateTable(data, true);
             generateSearchBar(data,true);
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
-            document.querySelector("#clearButton").addEventListener("click", () => {
-                                                                        generateTable(response.sort( (a,b) => a.title < b.title ? -1:1)); 
-                                                                        generateSearchBar()});
+            document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
         })
 }
 
@@ -115,6 +113,7 @@ function fillOptions(data){
 }
 
 function sortHandler(e, data){
+   clearSearch(data);
    if(e.target.innerText == "Title" && e.target.nodeName === "SPAN")
       sortByOneField("title",e,data);
    else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN")
@@ -129,19 +128,19 @@ function sortHandler(e, data){
 
 function sortByOneField(field,e,data){
    if(checkSorted(e)){
-      generateTable(data.sort( (a,b) => a[field] > b[field] ? -1:1));
+      generateTable(data.sort( (a,b) => a[field].toLowerCase() > b[field].toLowerCase() ? -1:1));
    }
    else{
-      generateTable(data.sort( (a,b) => a[field] < b[field] ? -1:1));
+      generateTable(data.sort( (a,b) => a[field].toLowerCase() < b[field].toLowerCase() ? -1:1));
    }
 }
 
 function sortByTwoFields(field,field2,e,data){
    if(checkSorted(e)){
-      generateTable(data.sort( (a,b) => a[field][field2] > b[field][field2] ? -1:1));
+      generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() > b[field][field2].toLowerCase() ? -1:1));
    }
    else{
-      generateTable(data.sort( (a,b) => a[field][field2] < b[field][field2] ? -1:1));
+      generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() < b[field][field2].toLowerCase() ? -1:1));
    }
 }
 
@@ -199,6 +198,10 @@ function filter(data,e){
          document.querySelector("#message").innerText = "";
       },3000)
    }
+}
+function clearSearch(response){
+   generateTable(response.sort( (a,b) => a.title < b.title ? -1:1)); 
+   generateSearchBar()
 }
 function singleSong(e){
    //code here, this is how you can access the song id
