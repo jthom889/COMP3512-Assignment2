@@ -7,7 +7,7 @@ const artistlist = JSON.parse(artists);
 document.addEventListener("DOMContentLoaded", () => {
    generateTable();
    fillOptions();
-
+   
    document.querySelector("#song-list table thead tr").addEventListener('click', sortHandler);
 
 });
