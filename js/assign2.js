@@ -16,7 +16,8 @@ function generateLandingPage(){
             const data = response.slice();
             generateTable(data, true);
             generateSearchBar(data,true);
-            document.querySelector("#clearButton").addEventListener("click", () => {generateTable(response); console.log(response)})
+            document.querySelector("#clearButton").addEventListener("click", () => {generateTable(response);});
+            document.querySelector("#filterButton").addEventListener("click", filter)
         })
 }
 
@@ -152,6 +153,9 @@ function radioClick(e){
       genreSelect.disabled = false;
    }else
       artistSelect.disabled = false;
+}
+function filter(){
+   
 }
 function singleSong(){
    //code here
