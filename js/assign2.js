@@ -44,6 +44,9 @@ function generateTable(data, firstLoad){
       }
 
    }
+
+   document.querySelectorAll("#song-list table tbody tr").forEach(
+                                          row => row.children[0].addEventListener("click",singleSong));
    if(firstLoad)
       document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
 }
@@ -145,5 +148,8 @@ function radioClick(e){
    }else
       artistSelect.disabled = false;
 }
-
+function singleSong(){
+   //code here
+   console.log("test");
+}
 
