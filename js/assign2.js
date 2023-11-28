@@ -17,10 +17,10 @@ function generateLandingPage(){
             console.log(data);
             generateTable(data, true);
             generateSearchBar(data,true);
-            document.querySelector("#filterButton").addEventListener("click", () => filter(data));
+            document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => {
-                                                                        generateTable(response); 
-                                                                        document.querySelector("#filterButton").disabled=false;});
+                                                                        generateTable(response.sort( (a,b) => a.title < b.title ? -1:1)); 
+                                                                        generateSearchBar()});
         })
 }
 
@@ -53,7 +53,6 @@ function generateTable(data, firstLoad){
          
       }
       //add button for playlist
-      
       row.appendChild(createButton(s));
       row.children[0].dataset.song_id = s.song_id;
    }
@@ -67,6 +66,22 @@ function generateSearchBar(data,firstLoad){
    if(firstLoad){
       fillOptions(data);
       document.querySelectorAll("input[type=radio]").forEach(r => {r.addEventListener("change", radioClick)})
+   }else{
+      const titleText = document.querySelector("#titleText");
+      const artistSelect = document.querySelector("#artistSelect");
+      const genreSelect = document.querySelector("#genreSelect");
+      //set title radio back to selected
+      document.querySelector("#titleRadio").checked = true;
+      //reset title value and enable it
+      titleText.disabled = false;
+      titleText.value="";
+      //reset artist value and disable it
+      artistSelect.disabled = true;
+      artistSelect.value = 0;
+      //reset genre value and disable it
+      genreSelect.disabled = true;
+      genreSelect.value = 0;
+      document.querySelector("#filterButton").disabled=false;
    }
    
 }
@@ -169,15 +184,28 @@ function createButton(song){
    return button;
 
 }
-function filter(){
+function filter(data,e){
    document.querySelector("#filterButton").disabled=true;
+   if(document.querySelector("#artistRadio").checked && document.querySelector("#artistSelect").value != 0)
+      generateTable(data.filter(d => d.artist.name === document.querySelector("#artistSelect").value));
+   else if(document.querySelector("#titleRadio").checked && document.querySelector("#titleText").value != 0)
+      generateTable(data.filter(d => d.title.includes(document.querySelector("#titleText").value)));
+   else if(document.querySelector("#genreRadio").checked && document.querySelector("#genreSelect").value != 0)
+      generateTable(data.filter(d => d.genre.name === document.querySelector("#genreSelect").value));
+   else{
+      document.querySelector("#message").innerText = "Please Fill Out The Relevant Field";
+      document.querySelector("#filterButton").disabled=false;
+      setTimeout(()=>{
+         document.querySelector("#message").innerText = "";
+      },3000)
+   }
 }
 function singleSong(e){
-   //code here, this is a test
+   //code here, this is how you can access the song id
    console.log(e.target.dataset.song_id);
 }
 function addToPlaylist(e){
-   //code here, this is a test
+   //code here, this is how you can access the song id
    console.log(e.target.dataset.song_id);
 }
 

@@ -22,6 +22,9 @@
 #song-list table thead tr th span:hover{
     cursor: pointer;
 }
+#message{
+    color: red;
+}
 tr td:first-child:hover{
     cursor: pointer;
     border: inset 1px black;
