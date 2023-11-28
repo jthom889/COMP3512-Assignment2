@@ -16,8 +16,10 @@ function generateLandingPage(){
             const data = response.slice();
             generateTable(data, true);
             generateSearchBar(data,true);
-            document.querySelector("#clearButton").addEventListener("click", () => {generateTable(response);});
-            document.querySelector("#filterButton").addEventListener("click", filter)
+            document.querySelector("#filterButton").addEventListener("click", () => filter(data));
+            document.querySelector("#clearButton").addEventListener("click", () => {
+                                                                        generateTable(response); 
+                                                                        document.querySelector("#filterButton").disabled=false;});
         })
 }
 
@@ -155,10 +157,10 @@ function radioClick(e){
       artistSelect.disabled = false;
 }
 function filter(){
-   
+   document.querySelector("#filterButton").disabled=true;
 }
-function singleSong(){
-   //code here
-   console.log("test");
+function singleSong(e){
+   //code here, this is a test
+   console.log(e.target.innerText);
 }
 
