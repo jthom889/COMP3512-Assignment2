@@ -128,9 +128,6 @@ function checkSorted(e){
       
 }
 function radioClick(e){
-   const titleRadio = document.querySelector("#titleRadio");
-   const artistRadio = document.querySelector("#artistRadio");
-   const genreRadio = document.querySelector("#genreRadio");
    const titleText = document.querySelector("#titleText")
    const genreSelect = document.querySelector("#genreSelect");
    const artistSelect = document.querySelector("#artistSelect");
@@ -140,10 +137,10 @@ function radioClick(e){
    titleText.disabled=true;
    
 
-   if(e.target == titleRadio){
+   if(e.target == document.querySelector("#titleRadio")){
       titleText.disabled = false;
    }
-   else if(e.target == genreRadio){
+   else if(e.target == document.querySelector("#genreRadio")){
       genreSelect.disabled = false;
    }else
       artistSelect.disabled = false;
