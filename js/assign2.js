@@ -236,7 +236,10 @@ function filter(data,e){
 function clearSearch(response){
    generateTable(response.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
    generateSearchBar();
-   document.querySelector("#searchParams").textContent = "Browse Mode"
+   document.querySelector("#searchParams").textContent = "Browse Mode";
+   document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
+      e.classList.remove("sorted")
+   })
 }
 function singleSong(e){
    //code here, this is how you can access the song id
