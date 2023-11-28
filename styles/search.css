@@ -1,23 +1,30 @@
 #search-container{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-areas: ". t"
+                         "s t"
+                         ". t" ;
     grid-gap: 15px;
     margin : 10px
 }
 #search{
-    background-color: darkblue;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    height: 30vh;
+    width: 100%;
+    grid-area: s;
+}
+.playlistButton{
+    margin-top: 9px;
 }
 #song-list{
-    background-color: brown;
     height: 500px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
+    grid-area: t;
 }
 #song-list table thead th:hover{
     cursor:default;
@@ -30,11 +37,16 @@
 }
 tr td:first-child:hover{
     cursor: pointer;
-    border: inset 1px black;
+    border: inset 5px black;
 }
 table{
     width: 100%;
-    
+}
+tr:nth-child(even){
+    background-color: rgb(115, 115, 115);
+}
+thead{
+    background-color: rgb(115, 115, 115);
 }
 td,th,tr{
     padding: 10px 15px 10px 15px;
@@ -50,4 +62,12 @@ label{
 }
 #song-list table thead tr:hover{
     cursor: pointer;
+}
+#toast{
+    display: none;
+    background-color: rgb(122, 214, 122);
+    justify-content: center;
+}
+#searchParams{
+    color: white;
 }

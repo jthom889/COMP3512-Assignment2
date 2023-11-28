@@ -176,7 +176,7 @@ function radioClick(e){
 }
 function createButton(song){
    const button = document.createElement("button");
-   button.id="playlistButton";
+   button.classList.add("playlistButton");
    button.textContent="Add to Playlist"
    button.dataset.song_id=song.song_id
    button.addEventListener("click", addToPlaylist)
@@ -216,7 +216,12 @@ function singleSong(e){
    console.log(e.target.dataset.song_id);
 }
 function addToPlaylist(e){
-   //code here, this is how you can access the song id
+   //this needs to fade in and out and is just a placeholder for now
+   toast = document.querySelector("#toast");
+   toast.style.display="flex"
+   setTimeout(() => {
+      toast.style.display="none"
+   }, 4000)
    console.log(e.target.dataset.song_id);
 }
 
