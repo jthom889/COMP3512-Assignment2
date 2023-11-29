@@ -17,8 +17,10 @@ function generateLandingPage(){
             console.log(data);
             generateTable(data, true);
             generateSearchBar(data,true);
+            generateSongView();
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
+            document.querySelector
         })
 }
 
@@ -56,7 +58,7 @@ function generateTable(data, firstLoad){
    }
 
    document.querySelectorAll("#song-list table tbody tr").forEach(
-                                          row => row.children[0].addEventListener("click",singleSong));
+                                          row => row.children[0].addEventListener("click", e => singleSong(e)));
 
 }
 
@@ -82,6 +84,97 @@ function generateSearchBar(data,firstLoad){
       document.querySelector("#filterButton").disabled=false;
    }
    
+}
+
+/**
+ * this function will generate the songview elements and make them all hidden 
+ * 
+ */
+function generateSongView(){
+
+   //create a section that encompasses everything in the song view
+   const songView = document.createElement('div');
+   songView.classList.add('songView');
+
+   //create a new div and append it to the parent section
+   const songParent = document.createElement('div');
+   songParent.classList.add("songParent");
+
+   //append to parent
+   songView.appendChild(songParent);
+
+   //create all necessary divs for each aspect of the song view
+   //a hierarchy of divs is created to ensure easy maintenance and changing
+   const songInfo = document.createElement('div')
+   songInfo.classList.add('songInfo');
+   //append this to its parent
+   songView.appendChild(songInfo);
+
+   const titleDiv = document.createElement('div');
+   titleDiv.classList.add('SItitle');
+   songInfo.appendChild(titleDiv);
+
+   const aNameDiv = document.createElement('div');
+   aNameDiv.classList.add('SIaName');
+   songInfo.appendChild(aNameDiv);
+
+   const aTypeDiv = document.createElement('div');
+   aTypeDiv.classList.add('SIaType');
+   songInfo.appendChild(aTypeDiv);
+
+   const genreDiv = document.createElement('div');
+   genreDiv.classList.add('SIgenre');
+   songInfo.appendChild(genreDiv);
+
+   const yearDiv = document.createElement('div');
+   yearDiv.classList.add('SIyear');
+   songInfo.appendChild(yearDiv);
+
+   const durationDiv = document.createElement('div');
+   durationDiv.classList.add('SIduration');
+   songInfo.appendChild(durationDiv);
+
+   //create divs in the analysis data section
+   const analysisData = document.createElement('div')
+   analysisData.classList.add('analysisdata');
+   //append this to its parent
+   songView.appendChild(analysisData);
+
+   const bpmDiv = document.createElement('div');
+   bpmDiv.classList.add('ADbpm');
+   analysisData.appendChild(bpmDiv);
+
+   const energyDiv = document.createElement('div');
+   energyDiv.classList.add('ADenergy');
+   analysisData.appendChild(energyDiv);
+
+   const danceDiv = document.createElement('div');
+   danceDiv.classList.add('ADdancability');
+   analysisData.appendChild(danceDiv);
+
+   const livenessDiv = document.createElement('div');
+   livenessDiv.classList.add('ADliveness');
+   analysisData.appendChild(livenessDiv);
+
+   const valenceDiv = document.createElement('div');
+   valenceDiv.classList.add('ADvalence');
+   analysisData.appendChild(valenceDiv);
+
+   const acousticDiv = document.createElement('div');
+   acousticDiv.classList.add('ADacousticness');
+   analysisData.appendChild(acousticDiv);
+
+   const speechDiv = document.createElement('div');
+   speechDiv.classList.add('ADspeechiness');
+   analysisData.appendChild(speechDiv);
+
+   const popularityDiv = document.createElement('div');
+   popularityDiv.classList.add('ADpopularity');
+   analysisData.appendChild(popularityDiv);
+
+   //hide all information form the songView
+   hideSongView();
+
 }
 
 function fillOptions(data){
@@ -211,10 +304,7 @@ function clearSearch(response){
    generateSearchBar();
    document.querySelector("#searchParams").textContent = "Browse Mode"
 }
-function singleSong(e){
-   //code here, this is how you can access the song id
-   console.log(e.target.dataset.song_id);
-}
+
 function addToPlaylist(e){
    //this needs to fade in and out and is just a placeholder for now
    toast = document.querySelector("#toast");
@@ -225,3 +315,46 @@ function addToPlaylist(e){
    console.log(e.target.dataset.song_id);
 }
 
+
+/**
+ * this function will create single song page view
+ */
+function singleSong(song){
+   //code here, this is how you can access the song id
+   console.log(song.target.dataset.song_id);
+
+   //hide all main sections
+   hideMain();
+
+  //show all of the song divs
+   document.querySelector('.songView').style.display = "block";
+   console.log("success");
+
+
+}
+
+/**
+ * this funciton will add content to the created
+ * elements for the contents of the song info
+ */
+function songPopulate(song){   
+
+}
+
+
+/**
+ * this funciton will hide all of the elements of the 
+ * body other than the header and footer for the main page
+ */
+function hideMain(){
+   document.querySelector("#search-container").style.display = "none";
+   
+}
+
+/**
+ * this funciton will hide all of the elements of the 
+ * body other than the header and footer for the songView
+ */
+function hideSongView(){
+   document.querySelector(".songView").style.display = "none";
+}

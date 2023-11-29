@@ -24,3 +24,7 @@ header, footer{
     background-color: black;
     box-shadow: 1px 1px 10px rgb(122, 214, 122) ;
 }
+
+.songView{
+    display: block;
+}
