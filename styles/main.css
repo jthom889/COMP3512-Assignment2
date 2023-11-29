@@ -24,6 +24,24 @@ header, footer{
     background-color: black;
     box-shadow: 1px 1px 10px rgb(122, 214, 122) ;
 }
+header{
+    display: flex;
+    justify-content: space-between;
+}
+.title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 7px;
+}
+.title p,.title h1{
+    margin : 0;
+}
+#aboutUs{
+    margin-right: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
 
 .songView{
     display: block;

@@ -30,6 +30,7 @@ function generateTable(data, firstLoad){
 
    if(firstLoad){
       document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
+      document.querySelector("#song-list table thead tr").children[0].children[0].classList.add("sorted")
       data.sort( (a,b) => a.title < b.title ? -1:1);
    }
 
@@ -206,34 +207,60 @@ function fillOptions(data){
 }
 
 function sortHandler(e, data){
+   document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
+      e.classList.remove("sorted")
+   })
    clearSearch(data);
-   if(e.target.innerText == "Title" && e.target.nodeName === "SPAN")
+   if(e.target.innerText == "Title" && e.target.nodeName === "SPAN"){
       sortByOneField("title",e,data);
-   else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN")
+      e.target.classList.add("sorted");
+   }
+   else if(e.target.innerText == "Artist" && e.target.nodeName === "SPAN"){
+      e.target.classList.add("sorted");
       sortByTwoFields("artist","name",e,data);
-   else if(e.target.innerText == "Year" && e.target.nodeName === "SPAN")
+   }
+   else if(e.target.innerText == "Year" && e.target.nodeName === "SPAN"){
+      e.target.classList.add("sorted");
       sortByOneField("year",e,data);
-   else if(e.target.innerText == "Genre" && e.target.nodeName === "SPAN")
+   }
+   else if(e.target.innerText == "Genre" && e.target.nodeName === "SPAN"){
+      e.target.classList.add("sorted");
       sortByTwoFields("genre","name",e,data);
-   else if(e.target.innerText == "Popularity" && e.target.nodeName === "SPAN")
+   }
+   else if(e.target.innerText == "Popularity" && e.target.nodeName === "SPAN"){
+      e.target.classList.add("sorted");
       sortByTwoFields("details","popularity",e,data);
+   }
+      
 }
 
 function sortByOneField(field,e,data){
    if(checkSorted(e)){
-      generateTable(data.sort( (a,b) => a[field].toLowerCase() > b[field].toLowerCase() ? -1:1));
+      if(field === "year")
+         generateTable(data.sort( (a,b) => a[field] > b[field] ? -1:1));
+      else
+         generateTable(data.sort( (a,b) => a[field].toLowerCase() > b[field].toLowerCase() ? -1:1));
    }
    else{
-      generateTable(data.sort( (a,b) => a[field].toLowerCase() < b[field].toLowerCase() ? -1:1));
+      if(field === "year")
+         generateTable(data.sort( (a,b) => a[field] < b[field] ? -1:1));
+      else
+         generateTable(data.sort( (a,b) => a[field].toLowerCase() < b[field].toLowerCase() ? -1:1));
    }
 }
 
 function sortByTwoFields(field,field2,e,data){
    if(checkSorted(e)){
-      generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() > b[field][field2].toLowerCase() ? -1:1));
+      if(field2 === "popularity")
+         generateTable(data.sort( (a,b) => a[field][field2] > b[field][field2] ? -1:1));
+      else
+         generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() > b[field][field2].toLowerCase() ? -1:1));
    }
    else{
-      generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() < b[field][field2].toLowerCase() ? -1:1));
+      if(field2 === "popularity")
+         generateTable(data.sort( (a,b) => a[field][field2] < b[field][field2] ? -1:1));
+      else
+         generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() < b[field][field2].toLowerCase() ? -1:1));
    }
 }
 
@@ -302,7 +329,10 @@ function filter(data,e){
 function clearSearch(response){
    generateTable(response.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
    generateSearchBar();
-   document.querySelector("#searchParams").textContent = "Browse Mode"
+   document.querySelector("#searchParams").textContent = "Browse Mode";
+   document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
+      e.classList.remove("sorted")
+   })
 }
 
 function addToPlaylist(e){
