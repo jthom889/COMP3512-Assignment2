@@ -104,75 +104,13 @@ function generateSongView(){
    //append to parent
    songView.appendChild(songParent);
 
-   //create all necessary divs for each aspect of the song view
-   //a hierarchy of divs is created to ensure easy maintenance and changing
-   const songInfo = document.createElement('div')
-   songInfo.classList.add('songInfo');
-   //append this to its parent
+   //create the child divs with the necessary functions
+   const songInfo = CreateSongInfoEmpty();
+   const analysisData = createAnalysisDataEmpty();
+
+   //append to the parent container
    songView.appendChild(songInfo);
-
-   const titleDiv = document.createElement('div');
-   titleDiv.classList.add('SItitle');
-   songInfo.appendChild(titleDiv);
-
-   const aNameDiv = document.createElement('div');
-   aNameDiv.classList.add('SIaName');
-   songInfo.appendChild(aNameDiv);
-
-   const aTypeDiv = document.createElement('div');
-   aTypeDiv.classList.add('SIaType');
-   songInfo.appendChild(aTypeDiv);
-
-   const genreDiv = document.createElement('div');
-   genreDiv.classList.add('SIgenre');
-   songInfo.appendChild(genreDiv);
-
-   const yearDiv = document.createElement('div');
-   yearDiv.classList.add('SIyear');
-   songInfo.appendChild(yearDiv);
-
-   const durationDiv = document.createElement('div');
-   durationDiv.classList.add('SIduration');
-   songInfo.appendChild(durationDiv);
-
-   //create divs in the analysis data section
-   const analysisData = document.createElement('div')
-   analysisData.classList.add('analysisdata');
-   //append this to its parent
    songView.appendChild(analysisData);
-
-   const bpmDiv = document.createElement('div');
-   bpmDiv.classList.add('ADbpm');
-   analysisData.appendChild(bpmDiv);
-
-   const energyDiv = document.createElement('div');
-   energyDiv.classList.add('ADenergy');
-   analysisData.appendChild(energyDiv);
-
-   const danceDiv = document.createElement('div');
-   danceDiv.classList.add('ADdancability');
-   analysisData.appendChild(danceDiv);
-
-   const livenessDiv = document.createElement('div');
-   livenessDiv.classList.add('ADliveness');
-   analysisData.appendChild(livenessDiv);
-
-   const valenceDiv = document.createElement('div');
-   valenceDiv.classList.add('ADvalence');
-   analysisData.appendChild(valenceDiv);
-
-   const acousticDiv = document.createElement('div');
-   acousticDiv.classList.add('ADacousticness');
-   analysisData.appendChild(acousticDiv);
-
-   const speechDiv = document.createElement('div');
-   speechDiv.classList.add('ADspeechiness');
-   analysisData.appendChild(speechDiv);
-
-   const popularityDiv = document.createElement('div');
-   popularityDiv.classList.add('ADpopularity');
-   analysisData.appendChild(popularityDiv);
-
    //hide all information form the songView
    hideSongView();
 
@@ -387,4 +325,91 @@ function hideMain(){
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
+}
+
+/**
+ * create all necessary divs for the the song info 
+ * portion of the single song view
+ * @returns song info div with all childeren appended to it
+ */
+function CreateSongInfoEmpty(){
+
+   //create all necessary divs for each aspect of the song view
+   //a hierarchy of divs is created to ensure easy maintenance and changing
+   const songInfo = document.createElement('div')
+   songInfo.classList.add('songInfo');
+
+   //create all childeren nodes for the song info and append to the song info div
+   const titleDiv = document.createElement('div');
+   titleDiv.classList.add('SItitle');
+   songInfo.appendChild(titleDiv);
+
+   const aNameDiv = document.createElement('div');
+   aNameDiv.classList.add('SIaName');
+   songInfo.appendChild(aNameDiv);
+
+   const aTypeDiv = document.createElement('div');
+   aTypeDiv.classList.add('SIaType');
+   songInfo.appendChild(aTypeDiv);
+
+   const genreDiv = document.createElement('div');
+   genreDiv.classList.add('SIgenre');
+   songInfo.appendChild(genreDiv);
+
+   const yearDiv = document.createElement('div');
+   yearDiv.classList.add('SIyear');
+   songInfo.appendChild(yearDiv);
+
+   const durationDiv = document.createElement('div');
+   durationDiv.classList.add('SIduration');
+   songInfo.appendChild(durationDiv);
+
+
+   return songInfo;
+}
+
+/**
+ * create necessary divs for the analysis data portion 
+ * of the single song page
+ * @returns the div with all childeren
+ */
+function createAnalysisDataEmpty(){
+
+   //create divs in the analysis data section
+   const analysisData = document.createElement('div')
+   analysisData.classList.add('analysisdata');
+
+   const bpmDiv = document.createElement('div');
+   bpmDiv.classList.add('ADbpm');
+   analysisData.appendChild(bpmDiv);
+
+   const energyDiv = document.createElement('div');
+   energyDiv.classList.add('ADenergy');
+   analysisData.appendChild(energyDiv);
+
+   const danceDiv = document.createElement('div');
+   danceDiv.classList.add('ADdancability');
+   analysisData.appendChild(danceDiv);
+
+   const livenessDiv = document.createElement('div');
+   livenessDiv.classList.add('ADliveness');
+   analysisData.appendChild(livenessDiv);
+
+   const valenceDiv = document.createElement('div');
+   valenceDiv.classList.add('ADvalence');
+   analysisData.appendChild(valenceDiv);
+
+   const acousticDiv = document.createElement('div');
+   acousticDiv.classList.add('ADacousticness');
+   analysisData.appendChild(acousticDiv);
+
+   const speechDiv = document.createElement('div');
+   speechDiv.classList.add('ADspeechiness');
+   analysisData.appendChild(speechDiv);
+
+   const popularityDiv = document.createElement('div');
+   popularityDiv.classList.add('ADpopularity');
+   analysisData.appendChild(popularityDiv);
+
+   return analysisData;
 }
