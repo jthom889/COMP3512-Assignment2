@@ -325,7 +325,7 @@ function hideMain(){
  * body other than the header and footer for the songView
  */
 function hideSongView(){
-   document.querySelector(".songView").style.display = "none";
+   //document.querySelector(".songView").style.display = "none";
 }
 
 /**
@@ -423,7 +423,7 @@ function createAnalysisDataEmpty(){
 function showPlaylist(){
    const pView = document.querySelector("#playlist-view");
    const pTable = document.querySelector("#playlist-table");
-   const clearBtn = document.querySelector("#clearPlaylistButton");
+   const clearBtn = document.querySelector("#clearPlaylist");
    hideMain();
    pView.style.display = "block";
 
