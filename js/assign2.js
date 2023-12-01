@@ -1,6 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
    generateLandingPage();
+  
 });
 
 function generateLandingPage(){
@@ -20,7 +21,7 @@ function generateLandingPage(){
             generateSongView();
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
-            document.querySelector
+            document.querySelector("#playlistButton").addEventListener("click", () => showPlaylist());
         })
 }
 
@@ -412,4 +413,83 @@ function createAnalysisDataEmpty(){
    analysisData.appendChild(popularityDiv);
 
    return analysisData;
+}
+
+
+
+/**
+ * This function will show the playlist view when the playlist button is clicked
+ */
+function showPlaylist(){
+   const pView = document.querySelector("#playlist-view");
+   const pTable = document.querySelector("#playlist-table");
+   const clearBtn = document.querySelector("#clearPlaylistButton");
+   hideMain();
+   pView.style.display = "block";
+
+   //Create an empty playlist array, favorited songs will be added to this array
+   const playlist = [];
+
+   //display playlist content in the table
+   displayPlaylist(playlist);
+
+   //Event listner that removes a single song if the remove button is clicked by the user
+   pTable.addEventListener('click', (e) => {
+      if (e.target.classList.contains("remove-button")) {
+         const removeSong = e.target.dataset.song_id;
+         playlist = playlist.filter(song => song.song_id !== removeSong);
+         displayPlaylist(playlist);
+         avgPop(playlist);  //calculates average popularity
+      }
+   });
+
+   //Removes all songs from the playlist array
+   clearBtn.addEventListener("click", () => {
+      playlist = [];
+      displayPlaylist(playlist);//displays an empty playlist
+      avgPop(playlist);
+  });
+
+  avgPop(playlist); //calculates average popularity and displays number of songs
+}
+
+
+
+/**
+ * This function displays the contents of the playlist in the table on the HTML page.
+ * @param {*} playlist playlist array created in the showPlaylist() function
+ */
+function displayPlaylist(playlist){
+   const pBody = document.querySelector("#playlist-body");
+   pBody.innerHTML = "";
+
+   playlist.forEach( song => {
+
+      const row = document.createElement("tr"); //create row element
+      const removeBtn = document.createElement("button"); //create remove button for each row
+      const removeCell = document.createElement("td"); //create data cell that will hold the remove button
+
+      removeBtn.textContent = "Remove";
+      removeBtn.classList.add("remove-button");
+      removeBtn.dataset.song_id = song.song_id;
+
+      removeCell.appendChild(removeBtn);
+      row.appendChild(removeCell);
+      pBody.appendChild(row);
+
+   });
+}
+
+function avgPop(playlist){
+   const pSummary = document.querySelector("#playlist-summary");
+   const numSongs = playlist.length;
+   let totalPop = 0;
+
+   playlist.forEach( song => {
+      totalPop += song.details.popularity;
+   });
+
+   const avg = totalPop / numSongs || 0;
+   pSummary.textContent = `Total Songs in Playlist: ${numSongs}, Average Popularity of Playlist: ${avg.toFixed(2)}`;
+
 }
