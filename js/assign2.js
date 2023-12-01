@@ -480,6 +480,11 @@ function displayPlaylist(playlist){
    });
 }
 
+/**
+ * Computes the average popularity of the songs in the playlist, and shows the number of songs in the playlist.
+ * This function also displays the information.
+ * @param {*} playlist array, takes the average popularity from the songs in this array
+ */
 function avgPop(playlist){
    const pSummary = document.querySelector("#playlist-summary");
    const numSongs = playlist.length;
