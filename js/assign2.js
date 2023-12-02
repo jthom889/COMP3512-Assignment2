@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function generateLandingPage(){
-   const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
+   const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
    fetch(api)
         .then(response => {
             if(response.ok)
