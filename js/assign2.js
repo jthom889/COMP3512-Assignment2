@@ -282,7 +282,7 @@ function addToPlaylist(song){
       toast.style.display="none";
    }, 4000);
    // console.log(song.target.dataset.song_id);
-   const songExists = playlist.some((existingSong) => existingSong.song_id === e.song_id);
+   const songExists = playlist.some((existingSong) => existingSong.song_id === song.song_id);
 
     if (!songExists) {
         playlist.push(song);
@@ -297,25 +297,16 @@ function addToPlaylist(song){
  */
 function singleSong(song){
    //code here, this is how you can access the song id
-<<<<<<< HEAD
-   console.log(song.target.dataset.song_id);
-   console.log(data);
-=======
    const songChoice = song.target.dataset;
    const sonf = song.target;
    console.log(songChoice)
    console.log(sonf)
->>>>>>> f10dd3c0987210bac451faf504535f86972decfe
 
    //hide all main sections
    hideMain();
 
   //show all of the song divs
-<<<<<<< HEAD
-   //document.querySelector('.songView').style.display = "block";
-=======
    document.querySelector('.songView').style.display="block";
->>>>>>> f10dd3c0987210bac451faf504535f86972decfe
    console.log("success");
 
    songPopulate(songChoice);
@@ -345,6 +336,7 @@ function songPopulate(song){
  */
 function hideMain(){
    document.querySelector("#search-container").style.display = "none";
+   document.querySelector("#playlist-view").style.display = "none";
    
 }
 
@@ -454,21 +446,18 @@ function showPlaylist(){
    hideMain();
    pView.style.display = "block";
 
-   //Create an empty playlist array, favorited songs will be added to this array
-   // const playlist = [];
-
    //display playlist content in the table
    displayPlaylist(playlist);
 
    //Event listner that removes a single song if the remove button is clicked by the user
    pTable.addEventListener('click', (e) => {
-      if (e.target.classList.contains("remove-button")) {
-         const removeSong = e.target.dataset.song_id;
-         playlist = playlist.filter(song => song.song_id !== removeSong);
-         displayPlaylist(playlist);
-         avgPop(playlist);  //calculates average popularity
+      if (e.target.classList.contains("removeBtn")) {
+          const removeSongId = e.target.dataset.song_id;
+          playlist = playlist.filter(song => song.song_id !== removeSongId);
+          displayPlaylist(playlist);
+          avgPop(playlist);
       }
-   });
+  });
 
    //Removes all songs from the playlist array
    clearBtn.addEventListener("click", () => {
@@ -493,18 +482,60 @@ function displayPlaylist(playlist){
    playlist.forEach( song => {
 
       const row = document.createElement("tr"); //create row element
-      const removeBtn = document.createElement("button"); //create remove button for each row
-      const removeCell = document.createElement("td"); //create data cell that will hold the remove button
 
+      //create title cell, and append to parent (row)
+      const titleCell = document.createElement("td");
+      titleCell.textContent = song.title;
+      row.appendChild(titleCell);
+
+      //create artist cell, and append to parent (row)
+      const artistCell = document.createElement("td");
+      artistCell.textContent = song.artist.name;
+      row.appendChild(artistCell);
+
+      //create year cell, and append to parent (row)
+      const yearCell = document.createElement("td");
+      yearCell.textContent = song.year;
+      row.appendChild(yearCell);
+
+      //create genre cell, and append to parent (row)
+      const genreCell = document.createElement("td");
+      genreCell.textContent = song.genre.name;
+      row.appendChild(genreCell);
+
+      //create popularity cell, and append to parent (row)
+      const popCell = document.createElement("td");
+      popCell.textContent = song.details.popularity;
+      row.appendChild(popCell);
+
+      //Create remove button
+      const removeBtn = document.createElement("button");
       removeBtn.textContent = "Remove";
-      removeBtn.classList.add("remove-button");
+      removeBtn.classList.add("removeBtn");
       removeBtn.dataset.song_id = song.song_id;
 
+      removeBtn.addEventListener('click', (e) => {
+         const removeSongId = e.target.dataset.song_id;
+         playlist = playlist.filter(song => song.song_id !== removeSongId);
+         displayPlaylist(playlist);
+         avgPop(playlist);
+     });
+
+      //create remove cell, and append to button to the remove cell. 
+      //Then append the remove cell to its parent (row) including the previously created remove button
+      const removeCell = document.createElement("td");
       removeCell.appendChild(removeBtn);
       row.appendChild(removeCell);
+
+      // Append the entire row to the playlist table
       pBody.appendChild(row);
 
+
    });
+
+   //user can click on a song in the playlist and bring up the single song information
+   document.querySelectorAll("#playlist-view table tbody tr").forEach(
+      row => row.children[0].addEventListener("click", e => singleSong(e)));
 }
 
 /**
