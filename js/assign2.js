@@ -1,4 +1,4 @@
-
+let data = [];
 document.addEventListener("DOMContentLoaded", () => {
    generateLandingPage();
   
@@ -14,7 +14,7 @@ function generateLandingPage(){
                 return Promise.reject({status:response.status, statusText:response.status.text})
         })
         .then(response => {
-            const data = response.slice();
+            data.push(...response);
             console.log(data);
             generateTable(data, true);
             generateSearchBar(data,true);
@@ -291,12 +291,13 @@ function addToPlaylist(e){
 function singleSong(song){
    //code here, this is how you can access the song id
    console.log(song.target.dataset.song_id);
+   console.log(data);
 
    //hide all main sections
    hideMain();
 
   //show all of the song divs
-   document.querySelector('.songView').style.display = "block";
+   //document.querySelector('.songView').style.display = "block";
    console.log("success");
 
 
