@@ -60,9 +60,10 @@ header{
 
 }
 
-.SItitle{
+.songView div {
     display: block;
     color: black;
     font-weight: bold;
     font-size: larger;
+    padding: 10px;
 }

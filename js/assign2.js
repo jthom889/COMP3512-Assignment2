@@ -92,8 +92,8 @@ function generateSearchBar(data,firstLoad){
 }
 
 /**
- * this function will generate the songview elements and make them all hidden 
- * 
+ * this function will generate the songview 
+ * elements and make them all hidden 
  */
 function generateSongView(){
 
@@ -297,32 +297,36 @@ function addToPlaylist(song){
  */
 function singleSong(song){
    //code here, this is how you can access the song id
-   const songChoice = song.target.dataset;
-   const sonf = song.target;
-   console.log(songChoice)
-   console.log(sonf)
+   const songChoice = data.find( d => song.target.dataset.song_id == d.song_id);
 
    //hide all main sections
    hideMain();
-
-  //show all of the song divs
-   document.querySelector('.songView').style.display="block";
-   console.log("success");
-
-   songPopulate(songChoice);
-   document.querySelector('.SItitle').innerHTML = sonf;
-
+   const songView = document.querySelector(".songView");
+   songView.style.display = "block";
+   //call the function to populate the songPage
+   songPopulate(songChoice, songView);
 }
 
 /**
  * this funciton will add content to the created
  * elements for the contents of the song info
  */
-function songPopulate(song){   
+function songPopulate(song, songView){   
 
-   //select the song info divs
+   console.log(song);
 
-   //document.querySelector('.SItitle').innerHTML = song.title;
+   //select the song info divs and add the information accordingly
+   //set the header
+   const header = document.querySelector('.SIheader h1');
+   header.textContent = "Song Information";
+   //add to title
+   const titleDiv = document.querySelector('.SItitle');
+   titleDiv.textContent = song.title;
+
+   //add to title
+   const artistNameDiv = document.querySelector('.SIaName');
+   artistNameDiv.textContent = song.artist.name;
+
    
 
    
@@ -361,6 +365,12 @@ function CreateSongInfoEmpty(){
    songInfo.classList.add('songInfo');
 
    //create all childeren nodes for the song info and append to the song info div
+   const heading = document.createElement('div');
+   const h1 = document.createElement('h1');
+   heading.classList.add('SIheader');
+   heading.appendChild(h1);
+   songInfo.appendChild(heading);
+
    const titleDiv = document.createElement('div');
    titleDiv.classList.add('SItitle');
    songInfo.appendChild(titleDiv);
