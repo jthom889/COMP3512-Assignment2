@@ -572,6 +572,7 @@ function showHomeBtn(){
    homeBtn .addEventListener("click", () => {
       document.querySelector("#search-container").style.display = "grid";
       document.querySelector("#playlist-view").style.display = "none";
+      document.querySelector(".songView").style.display = "none";
       homeBtn.style.display = "none";
       pBtn.style.display = "inline-block";
 
