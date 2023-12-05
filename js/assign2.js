@@ -452,8 +452,10 @@ function showPlaylist(){
    //Event listner that removes a single song if the remove button is clicked by the user
    pTable.addEventListener('click', (e) => {
       if (e.target.classList.contains("removeBtn")) {
+         console.log("remove button clicked");
+         console.log(playlist);
           const removeSongId = e.target.dataset.song_id;
-          playlist = playlist.filter(song => song.song_id !== removeSongId);
+          playlist = playlist.filter(song => song.song_id != removeSongId);
           displayPlaylist(playlist);
           avgPop(playlist);
       }
@@ -514,13 +516,6 @@ function displayPlaylist(playlist){
       removeBtn.classList.add("removeBtn");
       removeBtn.dataset.song_id = song.song_id;
 
-      removeBtn.addEventListener('click', (e) => {
-         const removeSongId = e.target.dataset.song_id;
-         playlist = playlist.filter(song => song.song_id !== removeSongId);
-         displayPlaylist(playlist);
-         avgPop(playlist);
-     });
-
       //create remove cell, and append to button to the remove cell. 
       //Then append the remove cell to its parent (row) including the previously created remove button
       const removeCell = document.createElement("td");
@@ -553,6 +548,7 @@ function avgPop(playlist){
    });
 
    const avg = totalPop / numSongs || 0;
-   pSummary.textContent = `Total Songs in Playlist: ${numSongs}, Average Popularity of Playlist: ${avg.toFixed(2)}`;
+   pSummary.textContent = `Total Songs in Playlist: ${numSongs}, 
+   Average Popularity of Playlist: ${avg.toFixed(2)}`;
 
 }
