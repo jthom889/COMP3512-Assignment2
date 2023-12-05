@@ -56,6 +56,8 @@
 
 #playlist-summary {
     color: white;
+    font-size: larger;
+    text-align: center;
 }
 
 .sorted {
