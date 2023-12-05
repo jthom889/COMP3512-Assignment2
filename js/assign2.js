@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
 });
 
+let playlist = [];
+
 function generateLandingPage(){
    const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
    fetch(api)
@@ -21,7 +23,7 @@ function generateLandingPage(){
             generateSongView();
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
-            document.querySelector("#playlistButton").addEventListener("click", () => showPlaylist());
+            document.querySelector("#playlistBtn").addEventListener("click", () => showPlaylist());
         })
 }
 
@@ -236,9 +238,9 @@ function radioClick(e){
 function createButton(song){
    const button = document.createElement("button");
    button.classList.add("playlistButton");
-   button.textContent="Add to Playlist"
-   button.dataset.song_id=song.song_id
-   button.addEventListener("click", addToPlaylist)
+   button.textContent="Add to Playlist";
+   button.dataset.song_id=song.song_id;
+   button.addEventListener("click", () => addToPlaylist(song));
    return button;
 
 }
@@ -274,14 +276,21 @@ function clearSearch(response){
    })
 }
 
-function addToPlaylist(e){
+function addToPlaylist(song){
    //this needs to fade in and out and is just a placeholder for now
-   toast = document.querySelector("#toast");
-   toast.style.display="flex"
+   const toast = document.querySelector("#toast");
+   toast.style.display="flex";
    setTimeout(() => {
-      toast.style.display="none"
-   }, 4000)
-   console.log(e.target.dataset.song_id);
+      toast.style.display="none";
+   }, 4000);
+   // console.log(song.target.dataset.song_id);
+   const songExists = playlist.some((existingSong) => existingSong.song_id === e.song_id);
+
+    if (!songExists) {
+        playlist.push(song);
+        displayPlaylist(playlist);
+        avgPop(playlist);
+    }
 }
 
 
@@ -428,7 +437,7 @@ function showPlaylist(){
    pView.style.display = "block";
 
    //Create an empty playlist array, favorited songs will be added to this array
-   const playlist = [];
+   // const playlist = [];
 
    //display playlist content in the table
    displayPlaylist(playlist);
