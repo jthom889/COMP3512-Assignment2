@@ -92,8 +92,8 @@ function generateSearchBar(data,firstLoad){
 }
 
 /**
- * this function will generate the songview elements and make them all hidden 
- * 
+ * this function will generate the songview 
+ * elements and make them all hidden 
  */
 function generateSongView(){
 
@@ -297,21 +297,22 @@ function addToPlaylist(song){
  */
 function singleSong(song){
    //code here, this is how you can access the song id
+<<<<<<< HEAD
+   console.log(song.target.dataset.song_id);
+   console.log(data);
+=======
    const songChoice = song.target.dataset;
    const sonf = song.target;
    console.log(songChoice)
    console.log(sonf)
+>>>>>>> f10dd3c0987210bac451faf504535f86972decfe
 
    //hide all main sections
    hideMain();
+   document.querySelector(".songView").style.display = "block";
 
-  //show all of the song divs
-   document.querySelector('.songView').style.display="block";
-   console.log("success");
-
+   //call the function to populate the songPage
    songPopulate(songChoice);
-   document.querySelector('.SItitle').innerHTML = sonf;
-
 }
 
 /**
@@ -320,9 +321,8 @@ function singleSong(song){
  */
 function songPopulate(song){   
 
-   //select the song info divs
+   //select the song info divs and add the information accordingly
 
-   //document.querySelector('.SItitle').innerHTML = song.title;
    
 
    
