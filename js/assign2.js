@@ -444,6 +444,8 @@ function showPlaylist(){
    const pTable = document.querySelector("#playlist-table");
    const clearBtn = document.querySelector("#clearPlaylist");
    hideMain();
+   document.querySelector("#playlistBtn").style.display = "none";
+   showHomeBtn();
    pView.style.display = "block";
 
    //display playlist content in the table
@@ -551,4 +553,18 @@ function avgPop(playlist){
    pSummary.textContent = `Total Songs in Playlist: ${numSongs}, 
    Average Popularity of Playlist: ${avg.toFixed(2)}`;
 
+}
+
+function showHomeBtn(){
+   const homeBtn = document.querySelector("#homeBtn");
+   const pBtn = document.querySelector("#playlistBtn");
+   homeBtn.style.display = "inline-block";
+   homeBtn .addEventListener("click", () => {
+      document.querySelector("#search-container").style.display = "grid";
+      document.querySelector("#playlist-view").style.display = "none";
+      generateLandingPage();
+      homeBtn.style.display = "none";
+      pBtn.style.display = "inline-block";
+
+   });
 }
