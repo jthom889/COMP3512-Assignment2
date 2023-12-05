@@ -1,4 +1,4 @@
-
+let data = [];
 document.addEventListener("DOMContentLoaded", () => {
    generateLandingPage();
   
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let playlist = [];
 
 function generateLandingPage(){
-   const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
+   const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
    fetch(api)
         .then(response => {
             if(response.ok)
@@ -16,11 +16,12 @@ function generateLandingPage(){
                 return Promise.reject({status:response.status, statusText:response.status.text})
         })
         .then(response => {
-            const data = response.slice();
+            data.push(...response);
             console.log(data);
+            generateSongView();
             generateTable(data, true);
             generateSearchBar(data,true);
-            generateSongView();
+            
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
             document.querySelector("#playlistBtn").addEventListener("click", () => showPlaylist());
@@ -96,9 +97,8 @@ function generateSearchBar(data,firstLoad){
  */
 function generateSongView(){
 
-   //create a section that encompasses everything in the song view
-   const songView = document.createElement('div');
-   songView.classList.add('songView');
+   //create a variable that contains the songView section
+   const songView = document.querySelector('.songView');
 
    //create a new div and append it to the parent section
    const songParent = document.createElement('div');
@@ -114,8 +114,6 @@ function generateSongView(){
    //append to the parent container
    songView.appendChild(songInfo);
    songView.appendChild(analysisData);
-   //hide all information form the songView
-   hideSongView();
 
 }
 
@@ -299,15 +297,29 @@ function addToPlaylist(song){
  */
 function singleSong(song){
    //code here, this is how you can access the song id
+<<<<<<< HEAD
    console.log(song.target.dataset.song_id);
+   console.log(data);
+=======
+   const songChoice = song.target.dataset;
+   const sonf = song.target;
+   console.log(songChoice)
+   console.log(sonf)
+>>>>>>> f10dd3c0987210bac451faf504535f86972decfe
 
    //hide all main sections
    hideMain();
 
   //show all of the song divs
-   document.querySelector('.songView').style.display = "block";
+<<<<<<< HEAD
+   //document.querySelector('.songView').style.display = "block";
+=======
+   document.querySelector('.songView').style.display="block";
+>>>>>>> f10dd3c0987210bac451faf504535f86972decfe
    console.log("success");
 
+   songPopulate(songChoice);
+   document.querySelector('.SItitle').innerHTML = sonf;
 
 }
 
@@ -316,6 +328,13 @@ function singleSong(song){
  * elements for the contents of the song info
  */
 function songPopulate(song){   
+
+   //select the song info divs
+
+   //document.querySelector('.SItitle').innerHTML = song.title;
+   
+
+   
 
 }
 
@@ -334,7 +353,7 @@ function hideMain(){
  * body other than the header and footer for the songView
  */
 function hideSongView(){
-   //document.querySelector(".songView").style.display = "none";
+   document.querySelector(".songView").style.display = "none";
 }
 
 /**
@@ -373,7 +392,6 @@ function CreateSongInfoEmpty(){
    const durationDiv = document.createElement('div');
    durationDiv.classList.add('SIduration');
    songInfo.appendChild(durationDiv);
-
 
    return songInfo;
 }
