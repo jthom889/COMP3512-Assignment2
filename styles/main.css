@@ -48,6 +48,21 @@ header{
     padding-right: 50px;
 }
 
-.songView{
+ section.songView{
+    height: 70vh;
+    margin: auto;
+    background-color:rgb(122, 214, 122);
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    width: 500px;
+
+}
+
+.SItitle{
     display: block;
+    color: black;
+    font-weight: bold;
+    font-size: larger;
 }
