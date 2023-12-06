@@ -4,7 +4,7 @@
                          "s t"
                          ". t" ;
     grid-gap: 15px;
-    margin : 10px
+    margin : 10px;
 }
 #search{
     display: flex;
@@ -65,9 +65,20 @@ label{
 }
 #toast{
     display: none;
-    background-color: rgb(122, 214, 122);
+    color: rgb(122, 214, 122);
     justify-content: center;
+    z-index: 2;
+    position: absolute;
+    top: 9.5%;
+    left: 42.5%;
+    padding: 5px;
+    animation: fadeInOut 3s;
 }
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% {opacity: 1;}
+    100% { opacity: 0; }
+  }
 #searchParams{
     color: white;
 }
