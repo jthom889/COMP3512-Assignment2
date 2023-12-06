@@ -300,6 +300,7 @@ function singleSong(song){
    //code here, this is how you can access the song id
    const songChoice = data.find( d => song.target.dataset.song_id == d.song_id);
 
+
    //hide all main sections
    hideMain();
    const songView = document.querySelector(".songView");
@@ -313,8 +314,6 @@ function singleSong(song){
  * elements for the contents of the song info
  */
 function songPopulate(song, songView){   
-
-   console.log(song);
 
    //select the song info divs and add the information accordingly
    //set the header
@@ -455,6 +454,7 @@ function showPlaylist(){
    const pTable = document.querySelector("#playlist-table");
    const clearBtn = document.querySelector("#clearPlaylist");
    hideMain();
+   hideSongView();
    document.querySelector("#playlistBtn").style.display = "none";
    showHomeBtn();
    pView.style.display = "block";
@@ -501,6 +501,7 @@ function displayPlaylist(playlist){
       //create title cell, and append to parent (row)
       const titleCell = document.createElement("td");
       titleCell.textContent = song.title;
+      titleCell.dataset.song_id = song.song_id;
       row.appendChild(titleCell);
 
       //create artist cell, and append to parent (row)
