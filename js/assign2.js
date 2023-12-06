@@ -1,14 +1,19 @@
 let data = [];
-document.addEventListener("DOMContentLoaded", () => {
-   generateLandingPage();
-  
-});
-
 let playlist = [];
 
-function generateLandingPage(){
+document.addEventListener("DOMContentLoaded", () => {
+   setData();
+   //generateLandingPage();
+  
+});
+function setData(){
    const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
-   fetch(api)
+   let songs = localStorage.getItem("songs");
+   if(songs){
+      data.push(...JSON.parse(songs));
+      generateLandingPage();
+   }else{
+      fetch(api)
         .then(response => {
             if(response.ok)
                 return response.json();
@@ -16,23 +21,33 @@ function generateLandingPage(){
                 return Promise.reject({status:response.status, statusText:response.status.text})
         })
         .then(response => {
+            localStorage.setItem("songs", JSON.stringify(response))
             data.push(...response);
-            console.log(data);
-            generateSongView();
-            generateTable(data, true);
-            generateSearchBar(data,true);
-            
-            document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
-            document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
-            document.querySelector("#playlistBtn").addEventListener("click", () => showPlaylist());
-            document.querySelector("#aboutUs").addEventListener("mouseover", showAboutUs);
+            generateLandingPage();
         })
+   }
+   
+}
+
+
+function generateLandingPage(){
+   generateSongView();
+   generateTable(data, true);
+   generateSearchBar(data,true);
+            
+   document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
+   document.querySelector("#clearButton").addEventListener("click", () => clearSearch(data));
+   document.querySelector("#playlistBtn").addEventListener("click", () => showPlaylist());
+   document.querySelector("#aboutUs").addEventListener("mouseover", showAboutUs);
+   
 }
 
 function generateTable(data, firstLoad){
    const table = document.querySelector("#song-list table tbody");
    table.innerHTML="";
 
+   //we dont want to add event listeners every time a new table is generated
+   //sort by title on first load
    if(firstLoad){
       document.querySelector("#song-list table thead tr").addEventListener('click', e => sortHandler(e,data));
       document.querySelector("#song-list table thead tr").children[0].children[0].classList.add("sorted")
@@ -64,7 +79,7 @@ function generateTable(data, firstLoad){
    }
 
    document.querySelectorAll("#song-list table tbody tr").forEach(
-                                          row => row.children[0].addEventListener("click", e => singleSong(e)));
+                     row => row.children[0].addEventListener("click", e => singleSong(e)));
 
 }
 
@@ -266,8 +281,8 @@ function filter(data,e){
       },3000)
    }
 }
-function clearSearch(response){
-   generateTable(response.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
+function clearSearch(songs){
+   generateTable(songs.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
    generateSearchBar();
    document.querySelector("#searchParams").textContent = "Browse Mode";
    document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
