@@ -300,7 +300,6 @@ function singleSong(song){
    //code here, this is how you can access the song id
    const songChoice = data.find( d => song.target.dataset.song_id == d.song_id);
 
-
    //hide all main sections
    hideMain();
    const songView = document.querySelector(".songView");
