@@ -72,7 +72,13 @@ label{
     top: 9.5%;
     left: 42.5%;
     padding: 5px;
+    animation: fadeInOut 3s;
 }
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% {opacity: 1;}
+    100% { opacity: 0; }
+  }
 #searchParams{
     color: white;
 }

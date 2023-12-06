@@ -281,7 +281,7 @@ function addToPlaylist(song){
    toast.style.display="flex";
    setTimeout(() => {
       toast.style.display="none";
-   }, 4000);
+   }, 2400);
    // console.log(song.target.dataset.song_id);
    const songExists = playlist.some((existingSong) => existingSong.song_id === song.song_id);
 
