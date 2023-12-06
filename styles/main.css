@@ -13,12 +13,16 @@ body{
     background-size: cover;
     background-attachment: fixed ;
 }
+body div, body section{
+    z-index: 1;
+}
 header, footer{
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     background-color: rgb(122, 214, 122);
+    z-index: 1;
 }
 .box{
     background-color: black;
@@ -42,12 +46,30 @@ header{
     padding-left: 50px;
     padding-right: 50px;
 }
-#playlistButton{
+#playlistBtn{
     margin-right: 20px;
     padding-left: 50px;
     padding-right: 50px;
 }
-
+#aboutUsDiv{
+    z-index: 2;
+    display: none;
+    position: absolute;
+}
+#aboutUsDiv div{
+    position: fixed;
+    color: white;
+    right: 0%;
+    top: 9.5%;
+    display: block;
+    z-index: 2;
+}
+#aboutUsDiv h3{
+    padding-right: 15%;
+}
+#aboutUsDiv p, #aboutUsDiv h3{
+    padding-left: 10%;
+}
  section.songView{
     height: 70vh;
     margin: auto;

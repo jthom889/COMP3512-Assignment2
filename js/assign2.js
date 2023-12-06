@@ -25,6 +25,8 @@ function generateLandingPage(){
             document.querySelector("#filterButton").addEventListener("click", (e) => filter(data,e));
             document.querySelector("#clearButton").addEventListener("click", () => clearSearch(response));
             document.querySelector("#playlistBtn").addEventListener("click", () => showPlaylist());
+            document.querySelector("#aboutUs").addEventListener("mouseover", showAboutUs);
+            document.querySelector("#aboutUs").addEventListener("mouseout", hideAboutUs);
         })
 }
 
@@ -577,4 +579,12 @@ function showHomeBtn(){
       pBtn.style.display = "inline-block";
 
    });
+}
+
+function showAboutUs(){
+   document.querySelector("#aboutUsDiv").style.display = "inline-block";
+   console.log("hover")
+}
+function hideAboutUs(){
+   document.querySelector("#aboutUsDiv").style.display = "none";
 }
