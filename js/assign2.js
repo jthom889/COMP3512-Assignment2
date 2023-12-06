@@ -569,6 +569,7 @@ function displayPlaylist(playlist){
 
       //Create remove button
       const removeBtn = document.createElement("button");
+      removeBtn.id = "removeBtn";
       removeBtn.textContent = "Remove";
       removeBtn.classList.add("removeBtn");
       removeBtn.dataset.song_id = song.song_id;
@@ -597,7 +598,10 @@ function displayPlaylist(playlist){
  */
 function avgPop(playlist){
    const pSummary = document.querySelector("#playlist-summary");
+   pSummary.innerHTML="";
    const numSongs = playlist.length;
+   const p1 = document.createElement("p");
+   const p2 = document.createElement("p");
    let totalPop = 0;
 
    playlist.forEach( song => {
@@ -605,8 +609,11 @@ function avgPop(playlist){
    });
 
    const avg = totalPop / numSongs || 0;
-   pSummary.textContent = `Total Songs in Playlist: ${numSongs}, 
-   Average Popularity of Playlist: ${avg.toFixed(2)}`;
+   p1.textContent = `Total Songs in Playlist: ${numSongs}`; 
+   p2.textContent = `Average Popularity of Playlist: ${avg.toFixed(2)}`;
+
+   pSummary.appendChild(p1);
+   pSummary.appendChild(p2);
 
 }
 
