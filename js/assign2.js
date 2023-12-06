@@ -3,9 +3,10 @@ let playlist = [];
 
 document.addEventListener("DOMContentLoaded", () => {
    setData();
-   //generateLandingPage();
-  
 });
+/*
+SETS DATA AND GENERATES THE SEARCH SECTION
+*/
 function setData(){
    const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.php';
    let songs = localStorage.getItem("songs");
@@ -29,7 +30,13 @@ function setData(){
    
 }
 
+/* 
+==============
+SEARCH SECTION
+==============
+*/
 
+//shows search table, fills options, set main event listeners
 function generateLandingPage(){
    generateSongView();
    generateTable(data, true);
@@ -41,7 +48,7 @@ function generateLandingPage(){
    document.querySelector("#aboutUs").addEventListener("mouseover", showAboutUs);
    
 }
-
+//generates the main search table
 function generateTable(data, firstLoad){
    const table = document.querySelector("#song-list table tbody");
    table.innerHTML="";
@@ -82,7 +89,7 @@ function generateTable(data, firstLoad){
                      row => row.children[0].addEventListener("click", e => singleSong(e)));
 
 }
-
+//sets up search bar behavior, if first load sets up the OPTION elements
 function generateSearchBar(data,firstLoad){
    if(firstLoad){
       fillOptions(data);
@@ -106,33 +113,7 @@ function generateSearchBar(data,firstLoad){
    }
    
 }
-
-/**
- * this function will generate the songview 
- * elements and make them all hidden 
- */
-function generateSongView(){
-
-   //create a variable that contains the songView section
-   const songView = document.querySelector('.songView');
-
-   //create a new div and append it to the parent section
-   const songParent = document.createElement('div');
-   songParent.classList.add("songParent");
-
-   //append to parent
-   songView.appendChild(songParent);
-
-   //create the child divs with the necessary functions
-   const songInfo = CreateSongInfoEmpty();
-   const analysisData = createAnalysisDataEmpty();
-
-   //append to the parent container
-   songView.appendChild(songInfo);
-   songView.appendChild(analysisData);
-
-}
-
+//fills the SELECT elements with unique artists and genres
 function fillOptions(data){
 
    const artistSelect = document.querySelector("#artistSelect");
@@ -160,7 +141,22 @@ function fillOptions(data){
       genreSelect.appendChild(newOptionGenre);
    }
 }
+//clears search table to all songs, resets the search bar
+function clearSearch(songs){
+   generateTable(songs.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
+   generateSearchBar();
+   document.querySelector("#searchParams").textContent = "Browse Mode";
+   document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
+      e.classList.remove("sorted")
+   })
+}
 
+/*
+====================
+SORTING SEARCH TABLE
+====================
+*/
+//resets search, sets styles for relevant TH element, calls sort method
 function sortHandler(e, data){
    document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
       e.classList.remove("sorted")
@@ -188,7 +184,8 @@ function sortHandler(e, data){
    }
       
 }
-
+//sorts by one field, if year we cannot call .toLowerCase()
+//checks if dataset.sorted=true, if it is true, reverse the search
 function sortByOneField(field,e,data){
    if(checkSorted(e)){
       if(field === "year")
@@ -203,7 +200,8 @@ function sortByOneField(field,e,data){
          generateTable(data.sort( (a,b) => a[field].toLowerCase() < b[field].toLowerCase() ? -1:1));
    }
 }
-
+//sorts by two fields, if popularity we cannot .toLowerCase()
+//checks if dataset.sorted=true, if it is true, reverse the search
 function sortByTwoFields(field,field2,e,data){
    if(checkSorted(e)){
       if(field2 === "popularity")
@@ -218,7 +216,8 @@ function sortByTwoFields(field,field2,e,data){
          generateTable(data.sort( (a,b) => a[field][field2].toLowerCase() < b[field][field2].toLowerCase() ? -1:1));
    }
 }
-
+//for checking if the dataset is set to sorted or not
+//if not sorted, set to sorted
 function checkSorted(e){
    if(e.target.dataset.sorted == "true"){
       e.target.dataset.sorted = "false"
@@ -230,6 +229,65 @@ function checkSorted(e){
    }
       
 }
+/*
+=================================
+FILTERING BY ARTIST, TITLE, GENRE
+=================================
+*/
+function filter(data,e){
+   document.querySelector("#filterButton").disabled=true;
+   const searchParams = document.querySelector("#searchParams")
+   if(document.querySelector("#artistRadio").checked && document.querySelector("#artistSelect").value != 0){
+      generateTable(data.filter(d => d.artist.name === document.querySelector("#artistSelect").value));
+      searchParams.textContent = `Search by Artist: ${document.querySelector("#artistSelect").value}`
+   }
+   else if(document.querySelector("#titleRadio").checked && document.querySelector("#titleText").value != 0){
+      generateTable(data.filter(d => d.title.includes(document.querySelector("#titleText").value)));
+      searchParams.textContent = `Search by Title: ${document.querySelector("#titleText").value}`
+   }
+   else if(document.querySelector("#genreRadio").checked && document.querySelector("#genreSelect").value != 0){
+      generateTable(data.filter(d => d.genre.name === document.querySelector("#genreSelect").value));
+      searchParams.textContent = `Search by Genre: ${document.querySelector("#genreSelect").value}`
+   }
+   else{
+      document.querySelector("#message").innerText = "Please Fill Out The Relevant Field";
+      document.querySelector("#filterButton").disabled=false;
+      setTimeout(()=>{
+         document.querySelector("#message").innerText = "";
+      },3000)
+   }
+}
+
+
+/**
+ * this function will generate the songview 
+ * elements and make them all hidden 
+ */
+function generateSongView(){
+
+   //create a variable that contains the songView section
+   const songView = document.querySelector('.songView');
+
+   //create a new div and append it to the parent section
+   const songParent = document.createElement('div');
+   songParent.classList.add("songParent");
+
+   //append to parent
+   songView.appendChild(songParent);
+
+   //create the child divs with the necessary functions
+   const songInfo = CreateSongInfoEmpty();
+   const analysisData = createAnalysisDataEmpty();
+
+   //append to the parent container
+   songView.appendChild(songInfo);
+   songView.appendChild(analysisData);
+
+}
+
+
+
+
 function radioClick(e){
    console.log("clicked")
    const titleText = document.querySelector("#titleText")
@@ -258,37 +316,8 @@ function createButton(song){
    return button;
 
 }
-function filter(data,e){
-   document.querySelector("#filterButton").disabled=true;
-   const searchParams = document.querySelector("#searchParams")
-   if(document.querySelector("#artistRadio").checked && document.querySelector("#artistSelect").value != 0){
-      generateTable(data.filter(d => d.artist.name === document.querySelector("#artistSelect").value));
-      searchParams.textContent = `Search by Artist: ${document.querySelector("#artistSelect").value}`
-   }
-   else if(document.querySelector("#titleRadio").checked && document.querySelector("#titleText").value != 0){
-      generateTable(data.filter(d => d.title.includes(document.querySelector("#titleText").value)));
-      searchParams.textContent = `Search by Title: ${document.querySelector("#titleText").value}`
-   }
-   else if(document.querySelector("#genreRadio").checked && document.querySelector("#genreSelect").value != 0){
-      generateTable(data.filter(d => d.genre.name === document.querySelector("#genreSelect").value));
-      searchParams.textContent = `Search by Genre: ${document.querySelector("#genreSelect").value}`
-   }
-   else{
-      document.querySelector("#message").innerText = "Please Fill Out The Relevant Field";
-      document.querySelector("#filterButton").disabled=false;
-      setTimeout(()=>{
-         document.querySelector("#message").innerText = "";
-      },3000)
-   }
-}
-function clearSearch(songs){
-   generateTable(songs.sort( (a,b) => a.title.toLowerCase() < b.title.toLowerCase() ? -1:1)); 
-   generateSearchBar();
-   document.querySelector("#searchParams").textContent = "Browse Mode";
-   document.querySelectorAll("#song-list table thead tr th span").forEach(e => {
-      e.classList.remove("sorted")
-   })
-}
+
+
 
 function addToPlaylist(song){
    //this needs to fade in and out and is just a placeholder for now
