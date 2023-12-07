@@ -351,6 +351,7 @@ function singleSong(song){
    songView.style.display = "grid";
    //call the function to populate the songPage
    songPopulate(songChoice);
+   showBackBtn();
 
    //create a chart and append it to its parent   
    const chart = document.createElement("canvas");
@@ -399,21 +400,27 @@ function songPopulate(song){
    const energyDiv = document.querySelector('.ADenergy');
    energyDiv.innerHTML = `Energy: <p style="font-weight: bolder;">${song.analytics.energy}</p>`;
 
-   //add to energy
+   //add to danceability
    const danceDiv = document.querySelector('.ADdanceability');
    danceDiv.innerHTML = `Danceability: <p style="font-weight: bolder;">${song.analytics.danceability}</p>`
    
+   //add to liveness
    const livenessDiv = document.querySelector('.ADliveness');
    livenessDiv.innerHTML = `Liveness: <p style="font-weight: bolder;">${song.analytics.liveness}</p>`
    
+   //add to valence
    const valenceDiv = document.querySelector('.ADvalence');
    valenceDiv.innerHTML = `Valence: <p style="font-weight: bolder;">${song.analytics.valence}</p>`
 
+   //add to acousticness
    const acousticDiv = document.querySelector('.ADacousticness');
    acousticDiv.innerHTML = `Acoustics: <p style="font-weight: bolder;">${song.analytics.acousticness}</p>`
 
+   //add to speechiness
    const speechDiv = document.querySelector('.ADspeechiness');
    speechDiv.innerHTML = `Speechiness: <p style="font-weight: bolder;">${song.analytics.speechiness}</p>`
+   
+   //add to popularity
    const popularityDiv = document.querySelector('.ADpopularity');
    popularityDiv.innerHTML = `Popularity: <p style="font-weight: bolder;">${song.details.popularity}</p>`
 }
@@ -448,7 +455,9 @@ function hideMain(){
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
+   document.querySelector('.returnBtn').style.display = "none";
    document.querySelector('.chartData').innerHTML = "";
+
 }
 
 /**
@@ -764,8 +773,19 @@ function showHomeBtn(){
       document.querySelector(".songView").style.display = "none";
       homeBtn.style.display = "none";
       pBtn.style.display = "inline-block";
-
+      
    });
+}
+
+function showBackBtn(){
+   const homeBtn = document.querySelector("#homeBtn");
+   const playlistBtn = document.querySelector("#playlistBtn");
+   const backBtn = document.querySelector("#backBtn");
+   homeBtn.style.display = "none";
+   playlistBtn.style.display = "none";
+   backBtn.style.display = "inline-block";  
+   console.log(history.back());    
+
 }
 
 function showAboutUs(){
