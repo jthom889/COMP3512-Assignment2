@@ -448,15 +448,7 @@ function hideMain(){
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
-   resetChart();
-}
-
-function resetChart(){
-   const chart = document.querySelector('canvas');
-   const parent = document.querySelector('.chartData');
-
-   // remove the chart from the parent
-   parent.removeChild(chart);
+   document.querySelector('.chartData').innerHTML = "";
 }
 
 /**
