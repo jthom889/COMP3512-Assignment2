@@ -268,21 +268,21 @@ function generateSongView(){
    //create a variable that contains the songView section
    const songView = document.querySelector('.songView');
 
-   //create a new div and append it to the parent section
-   const songParent = document.createElement('div');
-   songParent.classList.add("songParent");
+   const songData = document.createElement('div');
+   songData.classList.add('songData');
+   songView.appendChild(songData);
 
-   //append to parent
-   songView.appendChild(songParent);
+   const chartData = document.createElement('div');
+   chartData.classList.add('chartData');
+   songView.appendChild(chartData);
 
    //create the child divs with the necessary functions
    const songInfo = CreateSongInfoEmpty();
    const analysisData = createAnalysisDataEmpty();
 
    //append to the parent container
-   songView.appendChild(songInfo);
-   songView.appendChild(analysisData);
-
+   songData.appendChild(songInfo);
+   songData.appendChild(analysisData);
 }
 
 
@@ -341,39 +341,94 @@ function addToPlaylist(song){
  * this function will create single song page view
  */
 function singleSong(song){
-   //code here, this is how you can access the song id
+   //get the clicked on song
    const songChoice = data.find( d => song.target.dataset.song_id == d.song_id);
 
-   //hide all main sections
+   //hide all main sections and make the appropriate sections visible
    hideMain();
    const songView = document.querySelector(".songView");
-   songView.style.display = "block";
+   const chartData = document.querySelector(".chartData");
+   songView.style.display = "grid";
    //call the function to populate the songPage
-   songPopulate(songChoice, songView);
+   songPopulate(songChoice);
+
+   //create a chart and append it to its parent   
+   const chart = document.createElement("canvas");
+   chart.id = 'radarChart';
+   chartData.appendChild(chart);
+
+   //get the chart and draw it
+   drawChart(document.querySelector('#radarChart'), songChoice);
 }
 
 /**
  * this funciton will add content to the created
  * elements for the contents of the song info
  */
-function songPopulate(song, songView){   
-
+function songPopulate(song){   
    //select the song info divs and add the information accordingly
    //set the header
    const header = document.querySelector('.SIheader h1');
    header.textContent = "Song Information";
    //add to title
    const titleDiv = document.querySelector('.SItitle');
-   titleDiv.textContent = song.title;
+   titleDiv.innerHTML = `<h2 style="font-weight: bolder;">${song.title}</h2>`;
 
-   //add to title
+   //add to artistName
    const artistNameDiv = document.querySelector('.SIaName');
-   artistNameDiv.textContent = song.artist.name;
-
+   artistNameDiv.innerHTML = `By: <p style="font-weight: bolder;">${song.artist.name}</p>`;
    
-
+   //add to genre
+   const genreDiv = document.querySelector('.SIgenre');
+   genreDiv.innerHTML = `Genre: <p style="font-weight: bolder;">${song.genre.name}</p>`;
    
+   //add to genre
+   const yearDiv = document.querySelector('.SIyear');
+   genreDiv.innerHTML = `Released in: <p style="font-weight: bolder;">${song.year}</p>`;
 
+   //add to genre
+   const durationDiv = document.querySelector('.SIduration');
+   durationDiv.innerHTML = `Length: <p style="font-weight: bolder;">${formatTime(song.details.duration)}</p>min`;
+
+   //select the analysis info divs and add content to them
+   //add to bpm
+   const bpmDiv = document.querySelector('.ADbpm');
+   bpmDiv.innerHTML = `bpm: <p style="font-weight: bolder;">${song.details.bpm}</p>`;
+
+   //add to energy
+   const energyDiv = document.querySelector('.ADenergy');
+   energyDiv.innerHTML = `Energy: <p style="font-weight: bolder;">${song.analytics.energy}</p>`;
+
+   //add to energy
+   const danceDiv = document.querySelector('.ADdanceability');
+   danceDiv.innerHTML = `Danceability: <p style="font-weight: bolder;">${song.analytics.danceability}</p>`
+   
+   const livenessDiv = document.querySelector('.ADliveness');
+   livenessDiv.innerHTML = `Liveness: <p style="font-weight: bolder;">${song.analytics.liveness}</p>`
+   
+   const valenceDiv = document.querySelector('.ADvalence');
+   valenceDiv.innerHTML = `Valence: <p style="font-weight: bolder;">${song.analytics.valence}</p>`
+
+   const acousticDiv = document.querySelector('.ADacousticness');
+   acousticDiv.innerHTML = `Acoustics: <p style="font-weight: bolder;">${song.analytics.acousticness}</p>`
+
+   const speechDiv = document.querySelector('.ADspeechiness');
+   speechDiv.innerHTML = `Speechiness: <p style="font-weight: bolder;">${song.analytics.speechiness}</p>`
+   const popularityDiv = document.querySelector('.ADpopularity');
+   popularityDiv.innerHTML = `Popularity: <p style="font-weight: bolder;">${song.details.popularity}</p>`
+}
+
+
+
+/**
+ * this function will convert the time in seconds to minutes
+ * @param {*} sec is the number of seconds to convert 
+ * @returns formatted string for minutes
+ */
+function formatTime(sec) {
+   let minutes = sec < 60 ? '0' : Math.floor(sec/60);
+   calcSec = sec % 60;
+   return minutes + ":" + calcSec;
 }
 
 
@@ -393,6 +448,15 @@ function hideMain(){
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
+   resetChart();
+}
+
+function resetChart(){
+   const chart = document.querySelector('canvas');
+   const parent = document.querySelector('.chartData');
+
+   // remove the chart from the parent
+   parent.removeChild(chart);
 }
 
 /**
@@ -461,7 +525,7 @@ function createAnalysisDataEmpty(){
    analysisData.appendChild(energyDiv);
 
    const danceDiv = document.createElement('div');
-   danceDiv.classList.add('ADdancability');
+   danceDiv.classList.add('ADdanceability');
    analysisData.appendChild(danceDiv);
 
    const livenessDiv = document.createElement('div');
@@ -485,6 +549,87 @@ function createAnalysisDataEmpty(){
    analysisData.appendChild(popularityDiv);
 
    return analysisData;
+
+   
+}
+
+/**
+ * this function creates the chart for the 
+ * single song page based on one songs attributes
+ */
+function drawChart(canvas, song) {
+   new Chart(canvas, {
+      type: 'radar',
+      data: {
+         labels: ['Danceability', 'Energy', 'Speechiness', 'Acoustics', 'Liveness', 'Valence'],
+         datasets: [{
+               label: 'Analysis Data',
+               data: [song.analytics.danceability, song.analytics.energy, song.analytics.speechiness, song.analytics.acousticness, song.analytics.liveness, song.analytics.valence],
+               fill: true,
+               backgroundColor: 'rgb(177, 143, 207, 0.5)',
+               borderColor: '#774C7B',
+               
+               pointBackgroundColor: 'rgb(177, 143, 207, 0.5)',
+               pointBorderColor: '#fff',
+               fillopacity: 50
+               
+         }]
+      },
+      options: {
+         plugins: {
+            legend:{
+               display: true,
+               labels: {color: "white"},
+            },
+            title: {
+               display: true,
+               text: `${song.title}`,
+               align: 'center',
+               color: 'white',
+               font:{
+                     family: 'serif',
+                     color: 'white',
+                     size: 40,
+                     weight: 400
+               }
+            }
+         },
+         scales: {
+            r: {
+               ticks: {
+                     color: "white",
+                     backdropColor: "transparent",
+                     textStrokeWidth: 5,
+                     font:{
+                        family: 'serif',
+                        size: 10
+                     }
+               },
+               pointLabels: {
+                     color: 'white',
+                     font:{
+                        family: 'serif',
+                        size: 14,
+                        weight: 'bold'
+                     }
+               },
+               grid: {
+                     circular: true,
+                     color: "white"
+               },
+               suggestedMin: 0,
+            }
+         },
+         responsive: true,
+         elements: {
+            line: {
+               borderWidth: 3,
+               borderCapStyle: 'round',
+               tension: 0.2
+            }
+         }
+   }
+   });
 }
 
 
