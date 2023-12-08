@@ -455,7 +455,7 @@ function hideMain(){
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
-   document.querySelector('.returnBtn').style.display = "none";
+   //document.querySelector('.returnBtn').style.display = "none";
    document.querySelector('.chartData').innerHTML = "";
 
 }

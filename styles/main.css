@@ -41,10 +41,27 @@ header{
 .title p,.title h1{
     margin : 0;
 }
+.playlistButton, #clearButton, #filterButton{
+    background-color: rgb(0, 0, 0);
+    border-radius: 7px;
+    color: white;
+    border: 3px solid rgb(122, 214, 122);
+    cursor: pointer;
+    transition: box-shadow 0.1s ease-in-out; 
+}
 #aboutUs, #playlistBtn, #homeBtn, #backBtn{
     margin-right: 20px;
     padding-left: 50px;
     padding-right: 50px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 7px;
+    color: white;
+    border: 3px solid rgb(122, 214, 122);
+    cursor: pointer;
+    transition: box-shadow 0.1s ease-in-out; 
+}
+#aboutUs:hover, #playlistBtn:hover, #homeBtn:hover, #backBtn:hover, .playlistButton:hover, #clearButton:hover, #filterButton:hover{
+    box-shadow: 0 0 10px white;
 }
 #playlistBtn{
     margin-right: 20px;
