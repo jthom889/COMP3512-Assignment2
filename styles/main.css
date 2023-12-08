@@ -107,7 +107,9 @@ header{
     text-align: center;
     width: 1000px;
 }
-
+#filterButton:disabled{
+    display: none;
+}
 .songData{
     background-color:rgb(122, 214, 122);
     display: block;
