@@ -16,8 +16,20 @@
     grid-area: s;
 }
 .playlistButton{
-    margin-top: 9px;
+    margin: auto;
+    background-color: rgb(122, 214, 122);
+    width: 75px;
+    height: 35px;
+    border-radius: 10px;
+    transition: 0.1s all ease-in-out;
+    cursor: pointer;
 }
+
+.playlistButton:hover{
+    background-color: rgb(177, 143, 207);
+    color: #fff;
+}
+
 #song-list{
     height: 500px;
     overflow-y: scroll;
@@ -27,17 +39,19 @@
     grid-area: t;
 }
 #song-list table thead th:hover{
-    cursor:default;
+    cursor: default; 
 }
 #song-list table thead tr th span:hover{
     cursor: pointer;
+    color: rgb(122, 214, 122);
 }
 #message{
     color: red;
 }
 tr td:first-child:hover{
     cursor: pointer;
-    border: inset 5px black;
+    background-color: rgb(69, 69, 69);
+    color: rgb(122, 214, 122);
 }
 table{
     width: 100%;
@@ -59,9 +73,6 @@ input[type="radio"] {
 }
 label{
     color: white;
-}
-#song-list table thead tr:hover{
-    cursor: pointer;
 }
 #toast{
     display: none;

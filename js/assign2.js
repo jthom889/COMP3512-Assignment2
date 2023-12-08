@@ -1,6 +1,9 @@
 let data = [];
 let playlist = [];
 
+//this variable will track the active page for the purpose of the exit button on single song
+let page = "home";
+
 document.addEventListener("DOMContentLoaded", () => {
    setData();
 });
@@ -307,10 +310,11 @@ function radioClick(e){
    }else
       artistSelect.disabled = false;
 }
+
 function createButton(song){
    const button = document.createElement("button");
    button.classList.add("playlistButton");
-   button.textContent="Add to Playlist";
+   button.textContent="Add";
    button.dataset.song_id=song.song_id;
    button.addEventListener("click", () => addToPlaylist(song));
    return button;
@@ -344,8 +348,10 @@ function singleSong(song){
    //get the clicked on song
    const songChoice = data.find( d => song.target.dataset.song_id == d.song_id);
 
-   //hide all main sections and make the appropriate sections visible
+   //hide all main sections and playlist sections 
+   //and make the appropriate sections visible
    hideMain();
+   hidePlaylist();
    const songView = document.querySelector(".songView");
    const chartData = document.querySelector(".chartData");
    songView.style.display = "grid";
@@ -441,23 +447,31 @@ function formatTime(sec) {
 
 /**
  * this funciton will hide all of the elements of the 
- * body other than the header and footer for the main page
+ * main body other than the header and footer for the main page
  */
 function hideMain(){
    document.querySelector("#search-container").style.display = "none";
-   document.querySelector("#playlist-view").style.display = "none";
+   document.querySelector("#playlistBtn").style.display = "none";
    
 }
 
 /**
  * this funciton will hide all of the elements of the 
- * body other than the header and footer for the songView
+ * songView other than the header and footer for the songView
  */
 function hideSongView(){
    document.querySelector(".songView").style.display = "none";
-   //document.querySelector('.returnBtn').style.display = "none";
+   document.querySelector('#backBtn').style.display = "none";
    document.querySelector('.chartData').innerHTML = "";
 
+}
+
+/**
+ * this function will hide the playlist view
+*/
+function hidePlaylist(){
+   document.querySelector("#playlist-view").style.display = "none";
+   document.querySelector("#homeBtn").style.display = "none";
 }
 
 /**
@@ -544,30 +558,30 @@ function createAnalysisDataEmpty(){
    const speechDiv = document.createElement('div');
    speechDiv.classList.add('ADspeechiness');
    analysisData.appendChild(speechDiv);
-
+   
    const popularityDiv = document.createElement('div');
    popularityDiv.classList.add('ADpopularity');
    analysisData.appendChild(popularityDiv);
-
+   
    return analysisData;
-
+   
    
 }
 
 /**
  * this function creates the chart for the 
  * single song page based on one songs attributes
- */
+*/
 function drawChart(canvas, song) {
    new Chart(canvas, {
       type: 'radar',
       data: {
          labels: ['Danceability', 'Energy', 'Speechiness', 'Acoustics', 'Liveness', 'Valence'],
          datasets: [{
-               label: 'Analysis Data',
-               data: [song.analytics.danceability, song.analytics.energy, song.analytics.speechiness, song.analytics.acousticness, song.analytics.liveness, song.analytics.valence],
-               fill: true,
-               backgroundColor: 'rgb(177, 143, 207, 0.5)',
+            label: 'Analysis Data',
+            data: [song.analytics.danceability, song.analytics.energy, song.analytics.speechiness, song.analytics.acousticness, song.analytics.liveness, song.analytics.valence],
+            fill: true,
+            backgroundColor: 'rgb(177, 143, 207, 0.5)',
                borderColor: '#774C7B',
                
                pointBackgroundColor: 'rgb(177, 143, 207, 0.5)',
@@ -615,8 +629,8 @@ function drawChart(canvas, song) {
                      }
                },
                grid: {
-                     circular: true,
-                     color: "white"
+                  circular: true,
+                  color: "white"
                },
                suggestedMin: 0,
             }
@@ -629,7 +643,7 @@ function drawChart(canvas, song) {
                tension: 0.2
             }
          }
-   }
+      }
    });
 }
 
@@ -637,43 +651,55 @@ function drawChart(canvas, song) {
 
 /**
  * This function will show the playlist view when the playlist button is clicked
- */
+*/
 function showPlaylist(){
    const pView = document.querySelector("#playlist-view");
    const pTable = document.querySelector("#playlist-table");
    const clearBtn = document.querySelector("#clearPlaylist");
    hideMain();
    hideSongView();
-   document.querySelector("#playlistBtn").style.display = "none";
    showHomeBtn();
    pView.style.display = "block";
-
+   
+   //set active page status
+   page = "playlist";
+   
    //display playlist content in the table
    displayPlaylist(playlist);
-
+   
    //Event listner that removes a single song if the remove button is clicked by the user
    pTable.addEventListener('click', (e) => {
       if (e.target.classList.contains("removeBtn")) {
          console.log("remove button clicked");
          console.log(playlist);
-          const removeSongId = e.target.dataset.song_id;
-          playlist = playlist.filter(song => song.song_id != removeSongId);
-          displayPlaylist(playlist);
-          avgPop(playlist);
+         const removeSongId = e.target.dataset.song_id;
+         playlist = playlist.filter(song => song.song_id != removeSongId);
+         displayPlaylist(playlist);
+         avgPop(playlist);
       }
-  });
+   });
 
+   
+   
    //Removes all songs from the playlist array
    clearBtn.addEventListener("click", () => {
       playlist = [];
       displayPlaylist(playlist);//displays an empty playlist
       avgPop(playlist);
-  });
+   });
 
   avgPop(playlist); //calculates average popularity and displays number of songs
 }
 
-
+/**
+    * this function will set the main pages container to visible
+    */
+   function showMain(){
+      document.querySelector("#search-container").style.display = "grid";
+      document.querySelector("#playlistBtn").style.display = "inline-block";
+      //set page status
+      page = "home";
+   }
 
 /**
  * This function displays the contents of the playlist in the table on the HTML page.
@@ -768,24 +794,29 @@ function showHomeBtn(){
    const pBtn = document.querySelector("#playlistBtn");
    homeBtn.style.display = "inline-block";
    homeBtn .addEventListener("click", () => {
-      document.querySelector("#search-container").style.display = "grid";
-      document.querySelector("#playlist-view").style.display = "none";
-      document.querySelector(".songView").style.display = "none";
-      homeBtn.style.display = "none";
-      pBtn.style.display = "inline-block";
-      
+      showMain();
+      hidePlaylist();
+      hideSongView();
+       
    });
 }
 
+/**
+ * this function will change the top 
+ * left's button to the back button
+ */
 function showBackBtn(){
-   const homeBtn = document.querySelector("#homeBtn");
-   const playlistBtn = document.querySelector("#playlistBtn");
+   //set all buttons status
    const backBtn = document.querySelector("#backBtn");
-   homeBtn.style.display = "none";
-   playlistBtn.style.display = "none";
-   backBtn.style.display = "inline-block";  
-   //console.log(history.back());    
+   backBtn.style.display = "inline-block"; 
+   
+   //add he event listener
+   backBtn.addEventListener('click', ()=> {
+      hideSongView();
+      //check what status the previous page had and set the back button accordingly
+      (page=="playlist") ? showPlaylist() : (page=="home") ? showMain() : alert("Error: No previous page");
 
+   });
 }
 
 function showAboutUs(){

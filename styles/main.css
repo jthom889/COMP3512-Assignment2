@@ -41,7 +41,7 @@ header{
 .title p,.title h1{
     margin : 0;
 }
-.playlistButton, #clearButton, #filterButton{
+#clearButton, #filterButton{
     background-color: rgb(0, 0, 0);
     border-radius: 7px;
     color: white;
@@ -49,25 +49,34 @@ header{
     cursor: pointer;
     transition: box-shadow 0.1s ease-in-out; 
 }
+
+#clearButton:hover, #filterButton:hover{
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-color: blueviolet;
+}
+
 #aboutUs, #playlistBtn, #homeBtn, #backBtn{
     margin-right: 20px;
     padding-left: 50px;
     padding-right: 50px;
-    background-color: rgb(0, 0, 0);
-    border-radius: 7px;
-    color: white;
-    border: 3px solid rgb(122, 214, 122);
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    transition: 0.2s all ease-in-out;
+}
+
+#aboutUs:hover, #playlistBtn:hover, #homeBtn:hover, #backBtn:hover{
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    background-color: rgb(177, 143, 207);
+    color: #fff;
     cursor: pointer;
-    transition: box-shadow 0.1s ease-in-out; 
 }
-#aboutUs:hover, #playlistBtn:hover, #homeBtn:hover, #backBtn:hover, .playlistButton:hover, #clearButton:hover, #filterButton:hover{
-    box-shadow: 0 0 10px white;
+
+#aboutUs:hover{
+    cursor:default;
 }
-#playlistBtn{
-    margin-right: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
-}
+
+
 #aboutUsDiv{
     z-index: 2;
     display: none;
