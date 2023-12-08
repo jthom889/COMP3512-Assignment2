@@ -784,7 +784,7 @@ function showBackBtn(){
    homeBtn.style.display = "none";
    playlistBtn.style.display = "none";
    backBtn.style.display = "inline-block";  
-   console.log(history.back());    
+   //console.log(history.back());    
 
 }
 
