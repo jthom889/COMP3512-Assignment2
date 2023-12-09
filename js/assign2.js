@@ -4,6 +4,11 @@ let playlist = [];
 //this variable will track the active page for the purpose of the exit button on single song
 let page = "home";
 
+/**
+ * when DOM content is loaded data will be set
+ * the setData function generates the home page
+ * other pages are generated when events of the landing page fire
+ */
 document.addEventListener("DOMContentLoaded", () => {
    setData();
 });
