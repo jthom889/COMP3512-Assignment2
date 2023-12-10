@@ -93,8 +93,12 @@ header{
 #aboutUsDiv h3{
     padding-right: 15%;
 }
-#aboutUsDiv p, #aboutUsDiv h3{
+#aboutUsDiv p, #aboutUsDiv h3, #aboutUsDiv a{
     padding-left: 10%;
+}
+#aboutUsDiv a{
+    color: white;
+    text-decoration: none;
 }
  section.songView{
     display: grid;
